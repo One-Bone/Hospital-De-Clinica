@@ -5,6 +5,7 @@
 }
 :root{
     --primary-color: #5170ff;
+    --pressed-primary-color: #3a4dbf;
     --secondary-color: #38b6ff;
     --background-color: #eafffe;
     --main-color: #ffffff;
@@ -131,4 +132,8 @@ header{
     background-color: var(--secondary-color);
     cursor: pointer;
     transition: background-color 0.3s ease;
+}
+.service-card:active{
+    background-color: var(--pressed-primary-color);
+    transition: background-color 0.1s ease;
 }
