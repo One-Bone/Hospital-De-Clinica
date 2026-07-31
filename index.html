@@ -9,27 +9,46 @@
     
 </head>
 <body>
-    <header class="header">
-    Hospital de Clinica Montevideo
-    <div class="menu">
+    <header class="header" id="header-index">
+    <div class="header-top">
+        <div class="logo" id="logo-index">
+        Hospital de Clinica Montevideo
+        </div>
+        <div class="buscador" id="buscador-index">
+            <input type="text" placeholder="Buscar...">
+        </div>
+    </div>
+    <div class="menu" id="menu-index">
+        <a href="index.html">Inicio</a>
         <a href="historial.html">Historial</a>
         <a href="index.html">Inicio</a>
         <a href="perfil.html">Perfil</a>
         <a href="viajes.html">Viajes</a>
         <a href="login.html">inicio de sesión</a>
     </div>
-    <div class="Lateral-Menu">
-        <a href="pagina-principal.html">Pagina principal</a>
-        <a href="configuracion.html">Configuración</a>
-        <a href="pagina-principal.html#sobre-nosotros">Sobre nosotros</a>
-        <a href="contacto.html">Contacto</a>
-    </div>
+    <!-- <div class="Lateral-Menu"> -->
+        <!-- <a href="index.html">Inicio</a> -->
+        <!-- <a href="configuracion.html">Configuración</a> -->
+        <!-- <a href="index.html#sobre-nosotros">Sobre nosotros</a> -->
+        <!-- <a href="contacto.html">Contacto</a> -->
+    <!-- </div> -->
     </header>
     <main class="main-body">
-        <img src="img/imagen1.jpg" alt="Imagen de ejemplo" class="main-image" id="index-image">
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet maximus velit, vitae semper nisi. Vestibulum ut est vitae orci elementum venenatis nec nec mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam in sem dignissim, gravida nisl vel, congue ligula. Morbi commodo, metus viverra elementum convallis, enim ante volutpat nunc, at facilisis augue felis nec risus. Phasellus quis dictum purus. In mattis lectus vel orci fermentum, id convallis augue congue. Sed vitae dignissim odio, venenatis gravida eros. Nulla convallis justo massa, nec feugiat magna porta at. Vivamus ut ex sollicitudin, tincidunt quam quis, cursus purus. Nullam eu mi vitae odio hendrerit sollicitudin. 
-        </p>
+        <div class="main-content" id="main-content-index">
+            <img src="img/imagen1.jpg" alt="Imagen de ejemplo" class="main-image" id="index-image">
+            <section class="services-section">
+                <h2>Nuestros Servicios</h2>
+                <div class="services-grid">
+                    <div class="service-card"></div>
+                    <div class="service-card"></div>
+                    <div class="service-card"></div>
+                </div>
+            </section>
+            <h2 id="sobre-nosotros">Sobre nosotros</h2>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet maximus velit, vitae semper nisi. Vestibulum ut est vitae orci elementum venenatis nec nec mi. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Nam in sem dignissim, gravida nisl vel, congue ligula. Morbi commodo, metus viverra elementum convallis, enim ante volutpat nunc, at facilisis augue felis nec risus. Phasellus quis dictum purus. In mattis lectus vel orci fermentum, id convallis augue congue. Sed vitae dignissim odio, venenatis gravida eros. Nulla convallis justo massa, nec feugiat magna porta at. Vivamus ut ex sollicitudin, tincidunt quam quis, cursus purus. Nullam eu mi vitae odio hendrerit sollicitudin. 
+            </p>
+        </div>
     </main>
 </body>
 </html>
