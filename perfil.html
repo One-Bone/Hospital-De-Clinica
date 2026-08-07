@@ -3,26 +3,82 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clinica Montevideo</title>
+    <title>Hospital de Clinica Montevideo - Perfil</title>
+    <!-- CDN para los íconos (Menú hamburguesa, icono de casa y usuarios) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="stylesheet" href="css/style.css" as="style">
+    <!-- Se añade la hoja de estilos exclusiva del perfil -->
+    <link rel="stylesheet" href="css/perfil.css">
 </head>
 <body>
-    <div class="menu">
-    <a href="historial.html">Historial</a>
-    <a href="index.html">Inicio</a>
-    <a href="perfil.html">Perfil</a>
-    <a href="viajes.html">Viajes</a>
-    <a href="login.html">inicio de sesión</a>
-    </div>
-    <div class="Lateral-Menu">
-    <a href="index.html">Pagina principal</a>
-    <a href="configuracion.html">Configuración</a>
-    <a href="index.html#sobre-nosotros">Sobre nosotros</a>
-    <a href="contacto.html">Contacto</a>
-    </div>
-    <main>
-        <button>Editar perfil</button><br>
-        Perfil del usuario<br>
-        Nombre:
+    <!-- Button Float -->
+    <!-- <button class="fab-button" id="menu-toggle-btn"> -->
+        <!-- <i class="fa-solid fa-bars" id="menu-icon"></i> -->
+    <!-- </button> -->
+<!--  -->
+    <!-- Lateral Menu -->
+    <!-- <div class="side-menu-floating" id="side-menu"> -->
+        <!-- <a href="#">Editar Perfil</a> -->
+        <!-- <a href="#">Configuración</a> -->
+        <!-- <a href="#" class="active-item" id="open-preference">Preferencias</a> -->
+        <!-- <a href="#">Cerrar Sesión</a> -->
+    <!-- </div> -->
+
+    <!-- Header -->
+    <header class="header" id="header-index">
+        <div class="header-top">
+            <div class="logo" id="logo-index">
+                Hospital De Clinica<br>Montevideo
+            </div>
+            <div class="buscador-wrapper">
+                <div class="buscador" id="buscador-index">
+                    <input type="text" placeholder="buscar">
+                </div>
+            </div>
+            <div class="header-user-profile">
+                <div class="header-user-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+                <span>John Lennon</span>
+            </div>
+        </div>
+
+        <!-- Menu -->
+        <div class="menu" id="menu-index">
+            <a href="index.html"><i class="fa-solid fa-house"></i></a>
+            <a href="historial.html">Historial</a>
+            <a href="perfil.html" class="active">Perfiil</a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-body">
+        <!-- Reusamos la clase main-content de index.html pero con un ID específico -->
+        <div class="main-content" id="main-content-perfil">
+            <h1 class="titulo-perfil">Perfil</h1>
+            
+            <div class="perfil-flex-container">
+                <div class="perfil-avatar-grande">
+                    <div class="avatar-placeholder">
+                        <i class="fa-solid fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="perfil-datos">
+                    <h2 class="nombre-usuario">John Lennon Yep</h2>
+                    <p><strong>Edad:</strong> 99</p>
+                    <p><strong>Cedula:</strong> 56236231</p>
+                    <p><strong>Telefono:</strong> 098 123 123</p>
+                    
+                    <div class="perfil-enlaces">
+                        <a href="#">Editar perfil</a>
+                        <a href="#">Reestablecer Contraseña</a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 </body>
 </html>

@@ -1,0 +1,173 @@
+/* =========================================
+   Estilos Agregados para perfil.html
+========================================= */
+
+/* Modificación del header-top para centrar el buscador y acomodar al usuario */
+.header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 5%; /* Reducido de 10% a 5% para dar más espacio */
+}
+
+/* Envoltura para centrar el buscador correctamente */
+.buscador-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+/* Info de usuario en la esquina superior derecha */
+.header-user-profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--main-color);
+    font-size: 1.1rem;
+}
+
+.header-user-avatar {
+    width: 55px;
+    height: 55px;
+    background-color: #99a3a4;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid #b3b6b7;
+    margin-bottom: 5px;
+}
+
+.header-user-avatar i {
+    font-size: 2.2rem;
+    color: #f2f3f4;
+}
+
+/* Modificaciones de la barra del menú para que coincida con la imagen */
+#menu-index {
+    gap: 8rem;
+    border-bottom: 4px solid var(--secondary-color); 
+}
+
+#menu-index a {
+    position: relative;
+    padding-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+#menu-index a.active {
+    color: var(--primary-color);
+}
+
+/* Línea indicadora de pestaña activa (sobre la línea celeste base) */
+#menu-index a.active::after {
+    content: "";
+    position: absolute;
+    bottom: -11.5px;
+    left: -15%;
+    width: 130%;
+    height: 4px;
+    background-color: var(--primary-color);
+}
+
+/* =========================================
+   Tarjeta de Perfil
+========================================= */
+#main-content-perfil {
+    padding: 2rem 3rem 4rem 3rem;
+    border-radius: 5px;
+}
+
+.titulo-perfil {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+}
+
+.perfil-flex-container {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    padding-left: 2rem;
+}
+
+/* Círculo de Avatar Grande (Gris) */
+.avatar-placeholder {
+    width: 220px;
+    height: 220px;
+    background-color: #aeb6bf;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 7px solid #8e9a9f;
+}
+
+.avatar-placeholder i {
+    font-size: 8rem;
+    color: #7f8c8d;
+}
+
+/* Información del Usuario */
+.perfil-datos {
+    display: flex;
+    flex-direction: column;
+}
+
+.perfil-datos h2.nombre-usuario {
+    color: var(--primary-color);
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.perfil-datos p {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+    color: #000;
+}
+
+/* Enlaces Editar / Reestablecer (Centrados debajo de la info) */
+.perfil-enlaces {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 3rem;
+}
+
+.perfil-enlaces a {
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-size: 1.1rem;
+}
+
+.perfil-enlaces a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   Botón Flotante (FAB) y Menú Lateral
+========================================= */
+.fab-button {
+    position: fixed;
+    bottom: 2rem;
+    left: 2rem;
+    width: 60px;
+    height: 60px;
+    background-color: var(--primary-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 50%;
+    font-size: 1.8rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Ocultar el menú lateral por defecto hasta que lo llames con JavaScript */
+.side-menu-floating {
+    display: none; 
+}
