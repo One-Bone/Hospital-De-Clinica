@@ -31,6 +31,10 @@ header{
     padding: 1.5rem 10%;
     min-height: 120px;
 }
+.header-top a{
+    text-decoration: none;
+    color: var(--main-color);
+}
 .logo{
     font-size: 1.1rem;
     font-weight: bold;
@@ -136,4 +140,229 @@ header{
 .service-card:active{
     background-color: var(--pressed-primary-color);
     transition: background-color 0.1s ease;
+}
+
+/* Btn Float */
+.floating-menu-container {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 100;
+}
+
+.fab-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.fab-btn.open {
+    background-color: #5572ff;
+}
+
+.side-popup {
+    position: absolute;
+    bottom: 70px;
+    left: 10px;
+    width: 190px;
+    background: white;
+    border-radius: 18px;
+    padding: 1rem 0;
+    box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.15);
+    display: none;
+    flex-direction: column;
+}
+
+.side-popup.active {
+    display: flex;
+}
+
+.side-popup ul {
+    list-style: none;
+}
+
+.side-popup li a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--secondary-color);
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.side-popup li.MiniBtn a:hover {
+    transition: background-color 0.5s ease, color 0.5s ease;
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.side-popup li.MiniBtn a:active {
+    transition: background-color 0.2s ease, color 0.2s ease;
+    background-color: var(--pressed-primary-color);
+    color: var(--main-color);
+}
+
+/* Preferences */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.2);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 200;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-card {
+    background: white;
+    width: 550px;
+    height: 480px;
+    border-radius: 16px;
+    padding: 2.5rem 3rem;
+    box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+}
+
+.modal-title {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin-bottom: 3.5rem;
+}
+
+.pref-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2.5rem;
+    padding: 0 1rem;
+}
+
+.pref-label {
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* switch */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 32px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: #e2e8f0;
+    transition: .3s;
+    border-radius: 34px;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 24px;
+    width: 24px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .3s;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+input:checked + .slider {
+    background-color: var(--accent-blue);
+}
+
+input:checked + .slider:before {
+    transform: translateX(28px);
+}
+
+/*Lenguaje*/
+.custom-dropdown {
+    position: relative;
+    width: 150px;
+}
+
+.dropdown-btn {
+    width: 100%;
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: none;
+    background-color: #5b7eff;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 10px rgba(91, 126, 255, 0.3);
+}
+
+.custom-dropdown.open .dropdown-btn {
+    background-color: #e2faff;
+    color: #333;
+    box-shadow: none;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    z-index: 10;
+}
+
+.custom-dropdown.open .dropdown-content {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px;
+    text-align: center;
+    color: #333;
+    font-size: 0.95rem;
+    cursor: pointer;
+}
+
+.dropdown-item.active {
+    background-color: #e2faff;
+    font-weight: bold;
+}
+
+.dropdown-item:hover {
+    background-color: #f0f4f8;
 }
