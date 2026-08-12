@@ -1,0 +1,245 @@
+/* variables */
+:root {
+    --azul-principal: #5a6cf0;
+    --azul-oscuro: #4a5ce0;
+    --azul-texto: #4f5fe0;
+    --celeste-borde: #4ecde6;
+    --fondo-celeste: #d9f5f5;
+    --blanco: #ffffff;
+    --gris-texto: #333333;
+    --gris-claro: #888888;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    background-color: var(--fondo-celeste);
+    color: var(--gris-texto);
+}
+
+/* barra superior */
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    background-color: var(--azul-principal);
+    color: var(--blanco);
+    padding: 20px 40px;
+}
+
+.logo {
+    font-size: 1.4rem;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.buscador {
+    flex: 1;
+    max-width: 500px;
+}
+
+.buscador input {
+    width: 100%;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 999px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.perfil-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--blanco);
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.perfil-foto {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    background-color: #cfd3e0;
+}
+
+.perfil-link span {
+    font-size: 1.05rem;
+}
+
+/* navegador*/
+.main-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    background-color: var(--blanco);
+    padding: 18px 0;
+    border-bottom: 4px solid var(--celeste-borde);
+}
+
+.main-nav a {
+    text-decoration: none;
+    color: var(--azul-texto);
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding-bottom: 12px;
+}
+
+.main-nav .nav-icono {
+    font-size: 1.4rem;
+    color: var(--celeste-borde);
+}
+
+.main-nav a.active {
+    border-bottom: 3px solid var(--azul-texto);
+}
+
+/* boton */
+.menu-toggle {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--azul-principal);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    z-index: 20;
+}
+
+.menu-toggle span {
+    display: block;
+    width: 26px;
+    height: 3px;
+    background-color: var(--blanco);
+    border-radius: 2px;
+}
+
+/* menu lateral */
+.Lateral-Menu {
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    background-color: var(--blanco);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 10px 0;
+    display: none;
+    flex-direction: column;
+    min-width: 200px;
+    z-index: 20;
+}
+
+.Lateral-Menu.abierto {
+    display: flex;
+}
+
+.Lateral-Menu a {
+    padding: 12px 20px;
+    text-decoration: none;
+    color: var(--gris-texto);
+}
+
+.Lateral-Menu a:hover {
+    background-color: var(--fondo-celeste);
+}
+
+/* contenido */
+main {
+    max-width: 900px;
+    margin: 0 auto;
+    background-color: var(--blanco);
+    padding: 40px 50px 80px;
+}
+
+main h1 {
+    color: var(--azul-texto);
+    font-size: 2.4rem;
+    margin-bottom: 30px;
+}
+
+.lista-estudios {
+    list-style: none;
+}
+
+.estudio {
+    padding: 20px 0;
+}
+
+.estudio + .estudio {
+    border-top: 1px solid #eee;
+}
+
+.estudio-encabezado {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.estudio-encabezado h2 {
+    color: var(--azul-texto);
+    font-size: 1.3rem;
+}
+
+.estudio-encabezado .fecha {
+    color: var(--azul-texto);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.estudio p {
+    color: var(--gris-texto);
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.info-completa {
+    color: var(--celeste-borde);
+    text-decoration: underline;
+    font-size: 0.95rem;
+}
+
+.info-completa:hover {
+    color: var(--azul-texto);
+}
+ 
+/* responsive*/
+@media (max-width: 700px) {
+    .top-bar {
+        flex-wrap: wrap;
+        padding: 16px 20px;
+    }
+
+    .buscador {
+        order: 3;
+        max-width: 100%;
+    }
+
+    .main-nav {
+        gap: 30px;
+    }
+
+    main {
+        padding: 30px 20px 80px;
+    }
+
+    .estudio-encabezado {
+        flex-direction: column;
+        gap: 4px;
+    }
+}
