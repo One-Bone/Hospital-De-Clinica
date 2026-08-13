@@ -7,15 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchError = document.getElementById('match-error');
 
     form.addEventListener('submit', async function(event) {
-        // Detenemos el envío tradicional para manejarlo nosotros
+        //detenemos el envio default 
         event.preventDefault(); 
         
         let isValid = true;
         
-        // Expresión regular: mínimo 8 caracteres y al menos un dígito o símbolo
+        // al menos 8 digitos y un numero o simbolo
         const passwordRegex = /^(?=.*[\d\W_]).{8,}$/;
 
-        // 1. Validamos la seguridad de la contraseña
+        // validamos la seguridad de las contrseñas
         if (!passwordRegex.test(password.value)) {
             passwordError.style.display = 'block';
             isValid = false;
@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
             passwordError.style.display = 'none';
         }
 
-        // 2. Validamos que ambas contraseñas sean idénticas
+        // validamos si las contraseñas son iguales
         if (password.value !== confPass.value) {
             matchError.style.display = 'block';
             isValid = false;
@@ -31,20 +31,20 @@ document.addEventListener('DOMContentLoaded', () => {
             matchError.style.display = 'none';
         }
 
-        // Si hay errores, cancelamos el proceso aquí
+        // se canela aca si hay errores
         if (!isValid) {
             return;
         }
 
-        // --- PREPARACIÓN Y ENVÍO DE DATOS AL BACKEND ---
+        // --- envio de datos al backend
         
         // Extraemos los datos de los inputs del formulario
         const formData = new FormData(form);
         const data = Object.fromEntries(formData.entries());
 
         try {
-            // Reemplaza esto con la URL real de tu backend (ej. 'registro.php' o '/api/registro')
-            const backendURL = 'URL_DE_TU_BACKEND_AQUI'; 
+
+            const backendURL = 'futura url de la base de datos aca'; 
 
             const respuesta = await fetch(backendURL, {
                 method: 'POST',
@@ -55,15 +55,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
             if (respuesta.ok) {
-                // Si el servidor responde con éxito (código 200)
+                // si el registro esexitoso
                 alert('¡Registro exitoso!');
                 window.location.href = 'login.html'; // Redirige al login
             } else {
-                // Si el servidor detecta un problema (ej. el usuario ya existe)
+                // si detecta un error en el registro
                 alert('Error al registrar. Por favor, intenta de nuevo.');
             }
         } catch (error) {
-            // Si el servidor está caído o hay un error de red
+            // Si ca el server tira error 
             console.error('Error de conexión:', error);
             alert('Hubo un problema al conectar con el servidor.');
         }
