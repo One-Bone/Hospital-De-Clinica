@@ -3,24 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clinica Montevideo</title>
+    <title>Hospital de Clinica Montevideo - Viajes</title>
+    <link rel="preload" href="css/style.css" as="style">
+    <link rel="stylesheet" href="css/style.css" as="style">
+    <link rel="preload" href="css/viajes.css" as="style">
+    <link rel="stylesheet" href="css/viajes.css" as="style">
+    
 </head>
 <body>
-    <div class="menu">
-    <a href="historial.html">Historial</a>
-    <a href="index.html">Inicio</a>
-    <a href="perfil.html">Perfil</a>
-    <a href="viajes.html">Viajes</a>
-    <a href="login.html">inicio de sesión</a>
+    <!-- Header -->
+    <header class="header" id="header-index">
+    <div class="header-top">
+        <div class="logo" id="logo-index">
+        Hospital de Clinica <br> Montevideo
+        </div>
+        <div class="buscador" id="buscador-index">
+            <input type="text" placeholder="Buscar...">
+        </div>
+        <div class="user-profile">
+            <i class="fa-solid fa-circle-user avatar"></i>
+            <a href="login.html"><span>Iniciar Sesion</span></a>
+        </div>
     </div>
-    <div class="Lateral-Menu">
-    <a href="index.html">Pagina principal</a>
-    <a href="configuracion.html">Configuración</a>
-    <a href="index.html#sobre-nosotros">Sobre nosotros</a>
-    <a href="contacto.html">Contacto</a>
+
+    <!-- Menu -->
+    <div class="menu" id="menu-index">
+        <a href="index.html">Inicio</a>
+        <a href="historial.html">Historial</a>
+        <a href="perfil.html">Perfil</a>
     </div>
-    <main>
-        Viajes en ambulancia activos mm.presas
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-viajes">
+        <img src="img/Viajes.png" alt="Viajes" id="viajes-image" class="main-image">
     </main>
+
+    <!-- Seccion Mini Menu -->
+    <!-- Button FLoat -->
+    <div class="floating-menu-container">
+
+        <!-- Popup Menu -->
+        <div class="side-popup" id="sidePopup">
+            <ul>
+                <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
+                <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
+                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
+                <li class="MiniBtn"><a href="#">Cerrar sesion</a></li>
+            </ul>
+        </div>
+
+        <!-- Button Toggle -->
+        <button class="fab-btn" id="fabBtn">
+            <i class="fa-solid fa-bars" id="fabIcon"></i>
+        </button>
+    </div>
+
+    <!-- Preferences -->
+    <div class="modal-overlay" id="preferencesModal">
+        <div class="modal-card">
+            <h2 class="modal-title">Preferencias</h2>
+
+            <!-- Dark Switch -->
+            <div class="pref-row">
+                <span class="pref-label">Modo Oscuro</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Lenguaje Dropdown -->
+            <div class="pref-row">
+                <span class="pref-label">Idioma</span>
+                <div class="custom-dropdown" id="dropdownLanguage">
+                    <button class="dropdown-btn" id="dropdownBtn">Español</button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item active" data-lang="Español">Español</div>
+                        <div class="dropdown-item" data-lang="Ingles">Ingles</div>
+                        <div class="dropdown-item" data-lang="Frances">Frances</div>
+                        <div class="dropdown-item" data-lang="Portugues">Portugues</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="js/menu.js"></script>
 </body>
 </html>
