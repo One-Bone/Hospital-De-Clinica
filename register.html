@@ -1,35 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clinica Montevideo</title>
+    <title>Hospital de Clínica Montevideo</title>
     <link rel="stylesheet" href="css/register-login.css">
 </head>
 <body>
     <div class="register">
         <h1>Registro de usuario</h1>
-            <form action="index.html" method="post">
-                <label for="username">Nombre:</label>
-                <input type="text" id="username" name="username" required><br><br>
-                <label for="lastname">Apellido:</label>
-                <input type="text" id="lastname" name="lastname" required><br><br>
-                <label for="id">Número de cedula:</label>
-                <input type="text" id="id" name="id" required><br><br>
-                <label for="email">Correo electrónico:</label>
-                <input type="email" id="email" name="email" required><br><br>
-                <label for="password">Contraseña:</label>
-                <input type="password" id="password" name="password" required><br><br>
-                <label for="conf-pass">Confirmar contraseña:</label>
-                <input type="password" id="conf-pass" name="conf-pass" required><br><br>
-                <input type="submit" value="Registrarse"><br><br>
-                <label for="register">¿Ya tienes una cuenta?</label>
-                <a href="login.html">Inicia sesión aquí</a>
-            </form>
+        <form id="registerForm">
+            <label for="username">Nombre:</label>
+            <input type="text" id="username" name="username" required><br><br>
+            
+            <label for="lastname">Apellido:</label>
+            <input type="text" id="lastname" name="lastname" required><br><br>
+            
+            <label for="id">Número de cedula:</label>
+            <input type="text" id="id" name="id" required><br><br>
+            
+            <label for="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" required><br><br>
+            
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required><br>
+            <span id="password-error" style="color: red; font-size: 13px; display: none;">
+                La contraseña debe tener al menos 8 caracteres y contener un número o símbolo.
+            </span><br>
+            
+            <label for="conf-pass">Confirmar contraseña:</label>
+            <input type="password" id="conf-pass" name="conf-pass" required><br>
+            <span id="match-error" style="color: red; font-size: 13px; display: none;">
+                Las contraseñas no coinciden.
+            </span><br><br>
+            
+            <input type="submit" value="Registrarse"><br><br>
+            
+            <label for="register">¿Ya tienes una cuenta?</label>
+            <a href="login.html">Inicia sesión aquí</a>
+        </form>
     </div>
     <div class="Lateral-Menu">
-        <a href="index.html">Pagina principal</a>
+        <a href="index.html">Página principal</a>
         <a href="index.html#sobre-nosotros">Sobre nosotros</a>
         <a href="contacto.html">Contacto</a>
+    </div>
+
+    <!-- Vinculamos el archivo JavaScript aquí. Asegúrate de que la ruta sea correcta -->
+    <script src="js/register-login.js"></script>
 </body>
 </html>
