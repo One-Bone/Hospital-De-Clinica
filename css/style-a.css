@@ -4,12 +4,15 @@
     box-sizing: border-box;
 }
 :root{
-    --primary-color: #5170ff;
-    --pressed-primary-color: #3a4dbf;
-    --secondary-color: #38b6ff;
+    --primary-color: #2a2a2b;
+    --pressed-primary-color: #000000;
+    --secondary-color: #3a4dbf;
+    --pressed-secondary-color: #303061;
     --background-color: #eafffe;
     --main-color: #ffffff;
     --text-color: #333333;
+    --grey-color: #747272;
+    --pressed-grey-color: #dcdcdc;
 }
 body{
     font-family: Arial, sans-serif;
