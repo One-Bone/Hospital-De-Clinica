@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const confPass = document.getElementById('conf-pass');
     const passwordError = document.getElementById('password-error');
     const matchError = document.getElementById('match-error');
-
+ 
     form.addEventListener('submit', async function(event) {
         //detenemos el envio default 
         event.preventDefault(); 
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         // al menos 8 digitos y un numero o simbolo
         const passwordRegex = /^(?=.*[\d\W_]).{8,}$/;
-
+ 
         // validamos la seguridad de las contrseñas
         if (!passwordRegex.test(password.value)) {
             passwordError.style.display = 'block';
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             passwordError.style.display = 'none';
         }
-
+ 
         // validamos si las contraseñas son iguales
         if (password.value !== confPass.value) {
             matchError.style.display = 'block';
@@ -30,42 +30,43 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             matchError.style.display = 'none';
         }
-
+ 
         // se canela aca si hay errores
         if (!isValid) {
             return;
         }
-
+ 
         // --- envio de datos al backend
-        
-        // Extraemos los datos de los inputs del formulario
+ 
+        // Usamos FormData directo (sin convertir a JSON), porque PHP
+        // llena $_POST a partir de este formato, no de JSON crudo.
         const formData = new FormData(form);
-        const data = Object.fromEntries(formData.entries());
-
+ 
         try {
-
-            const backendURL = 'futura url de la base de datos aca'; 
-
+ 
+            const backendURL = 'procesar_registro.php';
+ 
             const respuesta = await fetch(backendURL, {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
+                body: formData
+                // No seteamos 'Content-Type' a mano: el navegador arma
+                // automaticamente el header correcto (multipart/form-data)
+                // junto con el boundary que necesita PHP para leerlo bien.
             });
-
+ 
             if (respuesta.ok) {
-                // si el registro esexitoso
+                // si el registro es exitoso
                 alert('¡Registro exitoso!');
-                window.location.href = 'login.html'; // Redirige al login
+                window.location.href = 'index.php'; // Redirige al login
             } else {
                 // si detecta un error en el registro
                 alert('Error al registrar. Por favor, intenta de nuevo.');
             }
         } catch (error) {
-            // Si ca el server tira error 
+            // Si cae el server tira error 
             console.error('Error de conexión:', error);
             alert('Hubo un problema al conectar con el servidor.');
         }
     });
 });
+ 
