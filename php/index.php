@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
 <head>
     <meta charset="UTF-8">
     <title>Hospital de Clínica Montevideo</title>
-    <link rel="stylesheet" href="css/register-login.css">
+    <link rel="stylesheet" href="../css/register-login.css">
 </head>
 <body>
     <div class="Login">
@@ -46,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
             <p style="color:red;"><?= htmlspecialchars($error_login) ?></p>
         <?php endif; ?>
  
-        <form id="loginForm" method="POST" action="index.php">
+        <form id="loginForm" method="POST" action="php/index.php">
             <label for="id">Número de cédula:</label>
             <input type="text" id="id" name="id" required><br><br>
  
@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
             <input type="submit" name="iniciar_sesion" value="Iniciar sesión"><br><br>
  
             <label for="register">¿No tienes una cuenta?</label>
-            <a href="register.html">Regístrate aquí</a>
+            <a href="../register.html">Regístrate aquí</a>
         </form>
     </div>
 </body>
