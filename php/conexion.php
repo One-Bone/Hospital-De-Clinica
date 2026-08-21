@@ -1,6 +1,11 @@
 <?php
-define ("BD_HOST", "localhost");
-define ("BD_USER", "root");
-define ("BD_PASS", "");
-define ("BD_NAME", "hospital");
+
+require_once 'config.php';
+
+$con = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+
+if ($con->connect_error) {
+    die("Connection failed: " . $con->connect_error);
+}
+
 ?>
