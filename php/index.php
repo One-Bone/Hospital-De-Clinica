@@ -7,12 +7,19 @@ $bdatos = "hospital";
  
 $enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
  
-$error_login = "";
+ 
+// Este bloque solo corre si el formulario fue enviado (metodo POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
+ 
+    $id_ingresado = $_POST['id'];
+    $password_ingresada = $_POST['password'];
  
     if (mysqli_num_rows($resultado) === 1) {
-        // Login correcto: aca despues podes redirigir con header("Location: panel.php")
+        // Login correcto
         $usuario_logueado = mysqli_fetch_assoc($resultado);
         echo "Bienvenido, " . htmlspecialchars($usuario_logueado['nombre']);
+                header("Location: index.html");
+
     } else {
         $error_login = "Cedula o contraseña incorrecta.";
     }
@@ -33,7 +40,7 @@ $error_login = "";
             <p style="color:red;"><?= htmlspecialchars($error_login) ?></p>
         <?php endif; ?>
  
-        <form id="loginForm" method="POST" action="php/index.php">
+        <form id="loginForm" method="POST" action="../index.html">
             <label for="id">Número de cédula:</label>
             <input type="text" id="id" name="id" required><br><br>
  
