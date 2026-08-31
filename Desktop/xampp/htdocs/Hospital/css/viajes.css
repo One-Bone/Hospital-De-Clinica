@@ -1,0 +1,55 @@
+#viajes-image{
+    width: 100%;
+    height: auto;
+}
+.zoom-controls{
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 100;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+.zoom-btn:active{
+    background-color: var(--pressed-grey-color);
+}
+.zoom-btn{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--grey-color);
+    border: none;
+    color: var(--main-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.floating-ambulance{
+    position: fixed;
+    bottom: 100px;
+    left: 30px;
+    z-index: 100;
+}
+.ambulance-btn{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--main-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+.ambulance-btn:active{
+    background-color: var(--pressed-secondary-color);
+}
