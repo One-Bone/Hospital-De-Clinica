@@ -9,19 +9,6 @@ $enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
  
 $error_login = "";
  
-// Este bloque solo corre si el formulario fue enviado (metodo POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
- 
-    $id_ingresado = $_POST['id'];
-    $password_ingresada = $_POST['password'];
- 
-    // Usamos consulta preparada para evitar inyeccion SQL
-    $consulta = "SELECT * FROM datosregister WHERE id = ? AND pass = SHA2(?, 256)";
-    $stmt = mysqli_prepare($enlace, $consulta);
-    mysqli_stmt_bind_param($stmt, "ss", $id_ingresado, $password_ingresada);
-    mysqli_stmt_execute($stmt);
-    $resultado = mysqli_stmt_get_result($stmt);
- 
     if (mysqli_num_rows($resultado) === 1) {
         // Login correcto: aca despues podes redirigir con header("Location: panel.php")
         $usuario_logueado = mysqli_fetch_assoc($resultado);
