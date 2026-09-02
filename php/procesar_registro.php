@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     );
 
     if (mysqli_stmt_execute($stmt)) {
-        header("Location: /hospital/php/index.php");
+        header("Location: /hospital/php/login.php");
         exit;
     } else {
         echo "Error al registrar: " . mysqli_error($enlace);

@@ -8,7 +8,8 @@
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/viajes.css" as="style">
     <link rel="stylesheet" href="css/viajes.css" as="style">
-    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 </head>
 <body>
     <!-- Header -->
@@ -22,9 +23,9 @@
     </div>
     </header>
 
-    <!-- Main Content -->
+    <!-- Map Content -->
     <main class="main-viajes">
-        <img src="img/Viajes.png" alt="Viajes" id="viajes-image" class="main-image">
+        <div id="map"></div>
     </main>
 
     <!-- Zoom in/out btn -->
@@ -33,10 +34,18 @@
         <button class="zoom-btn" id="zoomOutBtn">-</button>
     </div>
 
+    <!-- Botón simulación ambulancia -->
+    <div class="map-ambulance">
+        <button class="ambulance-map" id="ambulanceMap" title="Simular movimiento de ambulancia">
+            <i class="fa-solid fa-truck-medical"></i>
+        </button>
+    </div>
+
     <!-- Button Ambulance -->
     <div class="floating-ambulance">
         <button class="ambulance-btn" id="ambulanceBtn">
             <i class="fa-solid fa-ambulance"></i>
+            <span>Solicitar translado</span>
         </button>
     </div>
 
@@ -94,6 +103,9 @@
             </div>
         </div>
     </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="js/menu.js"></script>
+    <script src="js/viajes.js"></script>
 </body>
 </html>

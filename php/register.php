@@ -22,7 +22,7 @@ if (isset($_POST['registrarse'])) {
     }
 
     $insertarDatos = "INSERT INTO datosregister (nombre, apellido, id, email, pass)
-                    VALUES ('$nombre', '$apellido', '$id', '$email', SHA2('$contrasena', 256))";
+        VALUES ('$nombre', '$apellido', '$id', '$email', SHA2('$contrasena', 256))";
 
     $ejecutarInsertar = mysqli_query($enlace, $insertarDatos);
 

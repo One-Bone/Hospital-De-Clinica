@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (respuesta.ok) {
                 // si el registro es exitoso
                 alert('¡Registro exitoso!');
-                window.location.href = 'php/index.php'; // Redirige al login
+                window.location.href = 'php/login.php'; // Redirige al login
             } else {
                 // si detecta un error en el registro
                 alert('Error al registrar. Por favor, intenta de nuevo.');
