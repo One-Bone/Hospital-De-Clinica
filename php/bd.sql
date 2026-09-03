@@ -117,7 +117,7 @@ VALUES
 (2, 'Ezequielini', 'Asasini', '12374194', 'ezekielini@gmail.com', SHA2('aguantemandy123', 256)),
 (3, 'Patronsini', 'Asasini', '50123501', 'ptrnasasini@hotmail.com', SHA2('idontwanttosettheworldonfire', 256)),
 (4, 'Jonatansini', 'Vasquezini', '12398418', 'vazquezini@gmail.com', SHA2('brawlstar143', 256)),
-(5, 'Tung Tung', 'Sahur', '67676767', 'triplet@gmail.com', SHA2('tuntuntunsahur12367', 256)),
+(5, 'Tung Tung', 'Sahur', '67676767', 'triplet@gmail.com', SHA2('tuntuntunsahur12367', 256));
 
 SELECT *
 FROM usuario;
