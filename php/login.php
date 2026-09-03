@@ -1,5 +1,7 @@
 <?php
  
+session_start();
+ 
 $server = "localhost";
 $usuario = "root";
 $pass = "";
@@ -7,23 +9,35 @@ $bdatos = "hospital";
  
 $enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
  
+$error_login = "";
  
-// Este bloque solo corre si el formulario fue enviado (metodo POST)
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
+if (isset($_POST['iniciar_sesion'])) {
  
     $id_ingresado = $_POST['id'];
     $password_ingresada = $_POST['password'];
  
+    $consulta = "SELECT * FROM datosregister
+                 WHERE cedula_identidad = '$id_ingresado'
+                 AND pass = SHA2('$password_ingresada', 256)";
+ 
+    $resultado = mysqli_query($enlace, $consulta);
+ 
     if (mysqli_num_rows($resultado) === 1) {
-        // Login correcto
         $usuario_logueado = mysqli_fetch_assoc($resultado);
-        echo "Bienvenido, " . htmlspecialchars($usuario_logueado['nombre']);
-                header("Location: index.html");
-
+ 
+        // Guardamos los datos del usuario en la sesion,
+        // para poder usarlos en las demas paginas del sitio.
+        $_SESSION['id'] = $usuario_logueado['id_usuario'];
+        $_SESSION['cedula'] = $usuario_logueado['cedula_identidad'];
+        $_SESSION['nombre'] = $usuario_logueado['nombre'];
+ 
+        header("Location: ../index.html");
+        exit;
     } else {
-        $error_login = "Cedula o contraseña incorrecta.";
+        $error_login = "Cédula o contraseña incorrecta.";
     }
 }
+ 
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -40,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
             <p style="color:red;"><?= htmlspecialchars($error_login) ?></p>
         <?php endif; ?>
  
-        <form id="loginForm" method="POST" action="../index.html">
+        <form id="loginForm" method="POST" action="index.php">
             <label for="id">Número de cédula:</label>
             <input type="text" id="id" name="id" required><br><br>
  

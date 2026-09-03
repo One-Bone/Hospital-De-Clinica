@@ -38,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
  
         // --- envio de datos al backend
  
+        // Usamos FormData directo (sin convertir a JSON), porque PHP
+        // llena $_POST a partir de este formato, no de JSON crudo.
         const formData = new FormData(form);
  
         try {
@@ -47,7 +49,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const respuesta = await fetch(backendURL, {
                 method: 'POST',
                 body: formData
-
+                // No seteamos 'Content-Type' a mano: el navegador arma
+                // automaticamente el header correcto (multipart/form-data)
+                // junto con el boundary que necesita PHP para leerlo bien.
             });
  
             if (respuesta.ok) {
@@ -65,4 +69,3 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
- 
