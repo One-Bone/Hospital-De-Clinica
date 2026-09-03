@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital de Clínica Montevideo</title>
+    <link rel="stylesheet" href="css/register-login.css">
+</head>
+<body>
+    <div class="Login">
+        <h1>Inicio de sesión</h1>
+
+        <form id="loginForm" method="POST" action="index.html">
+            <label for="id">Número de cédula:</label>
+            <input type="text" id="id" name="id" required><br><br>
+
+            <label for="password">Contraseña:</label>
+            <input type="password" id="password" name="password" required><br><br>
+
+            <input type="checkbox" id="remember" name="remember">
+            <label for="remember">Recuérdame</label><br><br>
+
+            <input type="submit" name="iniciar_sesion" value="Iniciar sesión"><br><br>
+
+            <label for="register">¿No tienes una cuenta?</label>
+            <a href="register.html">Regístrate aquí</a>
+        </form>
+    </div>
+</body>
+</html>
