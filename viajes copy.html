@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital de Clinica Montevideo - Viajes</title>
+    <link rel="preload" href="css/style-a.css" as="style">
+    <link rel="stylesheet" href="css/style-a.css" as="style">
+    <link rel="preload" href="css/viajes.css" as="style">
+    <link rel="stylesheet" href="css/viajes.css" as="style">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header-index">
+    <!-- Menu -->
+    <div class="menu" id="menu-index">
+        <a href="index.html">Inicio</a>
+        <a href="documentos.html">Historial</a>
+        <a href="perfil.html">Perfil</a>
+        <a href="viajes.html">Viajes</a>
+    </div>
+    </header>
+
+    <!-- Map Content -->
+    <main class="main-viajes">
+        <div id="map"></div>
+    </main>
+
+    <!-- Zoom in/out btn -->
+    <div class="zoom-controls">
+        <button class="zoom-btn" id="zoomInBtn">+</button>
+        <button class="zoom-btn" id="zoomOutBtn">-</button>
+    </div>
+
+    <!-- Botón simulación ambulancia -->
+    <div class="map-ambulance">
+        <button class="ambulance-map" id="ambulanceMap" title="Simular movimiento de ambulancia">
+            <i class="fa-solid fa-truck-medical"></i>
+        </button>
+    </div>
+
+    <!-- Button Ambulance -->
+    <div class="floating-ambulance">
+        <button class="ambulance-btn" id="ambulanceBtn">
+            <i class="fa-solid fa-ambulance"></i>
+            <span>Solicitar translado</span>
+        </button>
+    </div>
+
+    <!-- Ambulance Modal -->
+    <div>
+        
+    </div>
+
+    <!-- Seccion Mini Menu -->
+    <!-- Button FLoat -->
+    <div class="floating-menu-container">
+
+        <!-- Popup Menu -->
+        <div class="side-popup" id="sidePopup">
+            <ul>
+                <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
+                <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
+                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
+                <li class="MiniBtn"><a href="#">Cerrar sesion</a></li>
+            </ul>
+        </div>
+
+        <!-- Button Toggle -->
+        <button class="fab-btn" id="fabBtn">
+            <i class="fa-solid fa-bars" id="fabIcon"></i>
+        </button>
+    </div>
+
+    <!-- Preferences -->
+    <div class="modal-overlay" id="preferencesModal">
+        <div class="modal-card">
+            <h2 class="modal-title">Preferencias</h2>
+
+            <!-- Dark Switch -->
+            <div class="pref-row">
+                <span class="pref-label">Modo Oscuro</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Lenguaje Dropdown -->
+            <div class="pref-row">
+                <span class="pref-label">Idioma</span>
+                <div class="custom-dropdown" id="dropdownLanguage">
+                    <button class="dropdown-btn" id="dropdownBtn">Español</button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item active" data-lang="Español">Español</div>
+                        <div class="dropdown-item" data-lang="Ingles">Ingles</div>
+                        <div class="dropdown-item" data-lang="Frances">Frances</div>
+                        <div class="dropdown-item" data-lang="Portugues">Portugues</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/viajes.js"></script>
+</body>
+</html>
