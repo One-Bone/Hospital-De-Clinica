@@ -118,6 +118,15 @@ header{
 }
 
 /* services index */
+.service-item{
+    width: 100%;
+    color: var(--secondary-color);
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    font-size: 1.5rem;
+    gap: 1rem;
+}
 .services-section{
     margin-top: 2rem;
     margin-bottom: 2rem;
@@ -131,6 +140,8 @@ header{
     background-color: var(--primary-color);
     border-radius: 10px;
     height: 250px;
+    align-items: center;
+    justify-content: center;
 }
 .service-card:hover{
     background-color: var(--secondary-color);
