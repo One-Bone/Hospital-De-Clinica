@@ -45,15 +45,75 @@
     <div class="floating-ambulance">
         <button class="ambulance-btn" id="ambulanceBtn">
             <i class="fa-solid fa-ambulance"></i>
-            <span>Solicitar translado</span>
         </button>
+        <span>Solicitar translado</span>
     </div>
 
     <!-- Ambulance Modal -->
-    <div>
-        
+    <div class="modal-overlay" id="trasladoModal">
+            <div class="modal-card modal-traslado">
+                <h2 class="modal-title-traslado">Solicitar Traslado</h2>
+                
+                <form id="formSolicitarTraslado" class="traslado-form-scroll">
+                    <div class="form-row">
+                        <label class="form-label">Tipo de traslado</label>
+                        <select class="form-input custom-select" id="tipoTraslado">
+                            <option value="Paciente">Paciente</option>
+                            <option value="Insumos">Insumos</option>
+                            <option value="Ambos">Ambos</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Salida</label>
+                        <input type="text" class="form-input" id="direccionSalida" placeholder="Ingrese Dirección" required>
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Llegada</label>
+                        <input type="text" class="form-input" id="direccionLlegada" placeholder="Ingrese Dirección" required>
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Hora de llegada</label>
+                        <input type="time" class="form-input btn-blue-input" id="horaLlegada">
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Nivel de necesidad</label>
+                        <select class="form-input custom-select select-red" id="nivelNecesidad">
+                            <option value="Alta">Alta</option>
+                            <option value="Media">Media</option>
+                            <option value="Baja">Baja</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-row">
+                        <label class="form-label">Insumos</label>
+                        <input type="text" class="form-input" id="listaInsumos" placeholder="Lista de Insumos">
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Para</label>
+                        <input type="text" class="form-input" id="asignacionPara" value="Ambulancia más Cercana">
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Paciente</label>
+                        <input type="text" class="form-input" id="datosPaciente" placeholder="Registrar más tarde">
+                    </div>
+                
+                    <div class="form-row">
+                        <label class="form-label">Conductor</label>
+                        <input type="text" class="form-input" id="datosConductor" value="Automático">
+                    </div>
+                
+                    <div class="form-submit-container">
+                        <button type="submit" class="btn-submit-traslado">Enviar</button>
+                    </div>
+                </form>
+            </div>
     </div>
-
     <!-- Seccion Mini Menu -->
     <!-- Button FLoat -->
     <div class="floating-menu-container">

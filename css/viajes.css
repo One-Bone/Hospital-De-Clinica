@@ -65,3 +65,145 @@
 .ambulance-btn:active{
     background-color: var(--pressed-secondary-color);
 }
+
+/* Modificación del botón flotante para Solicitar Traslado */
+.floating-ambulance {
+    position: fixed;
+    bottom: 30px;
+    left: 100px; /* Desplazado para no solaparse con el menú flotante FAB */
+    z-index: 100;
+}
+
+.ambulance-btn {
+    height: 50px;
+    padding: 0 24px;
+    border-radius: 25px;
+    background-color: var(--primary-color);
+    border: none;
+    color: var(--main-color);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.ambulance-btn:active {
+    background-color: var(--pressed-primary-color);
+}
+
+/* Estilos del Modal Solicitar Traslado */
+.modal-traslado {
+    width: 580px;
+    max-height: 85vh;
+    padding: 2.5rem 3rem;
+    background: var(--main-color);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-title-traslado {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+}
+
+/* Scroll interno estilizado */
+.traslado-form-scroll {
+    overflow-y: auto;
+    padding-right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+}
+
+.traslado-form-scroll::-webkit-scrollbar {
+    width: 8px;
+}
+.traslado-form-scroll::-webkit-scrollbar-track {
+    background: #e2e8f0;
+    border-radius: 10px;
+}
+.traslado-form-scroll::-webkit-scrollbar-thumb {
+    background: var(--grey-color);
+    border-radius: 10px;
+}
+
+/* Campos de entrada */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.form-label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--primary-color);
+}
+
+.form-input {
+    width: 260px;
+    height: 42px;
+    background-color: var(--primary-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 14px;
+    padding: 0 16px;
+    font-size: 0.95rem;
+    text-align: center;
+    outline: none;
+}
+
+.form-input::placeholder {
+    color: #cccccc;
+}
+
+.btn-blue-input {
+    background-color: var(--secondary-color) !important;
+    color: var(--main-color) !important;
+    cursor: pointer;
+}
+
+.select-red {
+    background-color: #ff2a2a !important;
+    color: var(--main-color) !important;
+    font-weight: bold;
+}
+
+.custom-select {
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    text-align-last: center;
+}
+
+.form-submit-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.btn-submit-traslado {
+    width: 200px;
+    height: 48px;
+    background-color: var(--primary-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-submit-traslado:hover {
+    background-color: var(--pressed-primary-color);
+}

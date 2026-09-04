@@ -22,11 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     mysqli_stmt_bind_param($stmt, "sssss", $nombre, $apellido, $cedula, $email, $pass_ingresada);
  
     if (mysqli_stmt_execute($stmt)) {
-<<<<<<< HEAD
-        header("Location: /hospital/php/login.php");
-=======
-        header("Location: index.php");
->>>>>>> d654aad (Arreglo BD, eliminado register.php)
+        header("Location: ../php/login.php");
         exit;
     } else {
         echo "Error al registrar: " . mysqli_error($enlace);
