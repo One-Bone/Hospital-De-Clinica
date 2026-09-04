@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
  
         try {
  
-            const backendURL = 'php/procesar_registro.php';
+            const backendURL = 'procesar_registro.php';
  
             const respuesta = await fetch(backendURL, {
                 method: 'POST',
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (respuesta.ok) {
                 // si el registro es exitoso
                 alert('¡Registro exitoso!');
-                window.location.href = 'php/login.php'; // Redirige al login
+                window.location.href = 'index.php'; // Redirige al login
             } else {
                 // si detecta un error en el registro
                 alert('Error al registrar. Por favor, intenta de nuevo.');
@@ -69,3 +69,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+ 
