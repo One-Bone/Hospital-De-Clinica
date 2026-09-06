@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
     // Consulta preparada: especificamos las columnas en el mismo orden que los valores,
     // y ciframos la contraseña con SHA2 antes de guardarla.
-    $insertarDatos = "INSERT INTO datosregister (nombre, apellido, cedula_identidad, email, pass) VALUES (?, ?, ?, ?, SHA2(?, 256))";
+    $insertarDatos = "INSERT INTO usuario (nombre, apellido, cedula_identidad, email, pass) VALUES (?, ?, ?, ?, SHA2(?, 256))";
     $stmt = mysqli_prepare($enlace, $insertarDatos);
     mysqli_stmt_bind_param($stmt, "sssss", $nombre, $apellido, $cedula, $email, $pass_ingresada);
  

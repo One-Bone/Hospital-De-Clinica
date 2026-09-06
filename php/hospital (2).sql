@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 03-09-2026 a las 22:31:00
+-- Tiempo de generación: 06-09-2026 a las 22:54:55
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,30 +44,6 @@ CREATE TABLE `clase` (
   `idclase` int(6) NOT NULL,
   `descripcion_clase` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `datosregister`
---
-
-CREATE TABLE `datosregister` (
-  `nombre` varchar(50) NOT NULL,
-  `apellido` varchar(50) NOT NULL,
-  `cedula_identidad` int(11) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `pass` varchar(255) NOT NULL,
-  `id_usuario` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `datosregister`
---
-
-INSERT INTO `datosregister` (`nombre`, `apellido`, `cedula_identidad`, `email`, `pass`, `id_usuario`) VALUES
-('sergio', 'dawi', 2147483647, 'dawi@gmail.com', 'b647d520fce24fd0339be3c6c82d56077a65664ac9a26e4fd525baa6cabe0fe8', 1),
-('Skay', 'Beilinson', 19762001, 'skayyy@gmail.com', 'b647d520fce24fd0339be3c6c82d56077a65664ac9a26e4fd525baa6cabe0fe8', 2),
-('Gaston', 'Gómez', 57570155, 'gomez@gmail.com', 'dfd7b78ad72effb53082ab8c6282b8f832c5ba462473916637304863421a5a51', 3);
 
 -- --------------------------------------------------------
 
@@ -118,7 +94,7 @@ CREATE TABLE `encuesta` (
 
 CREATE TABLE `funcionario` (
   `idfuncionario` int(11) NOT NULL,
-  `id` int(11) DEFAULT NULL,
+  `id_usuario` int(11) DEFAULT NULL,
   `cargo` varchar(50) DEFAULT NULL,
   `legajo` varchar(50) DEFAULT NULL,
   `contacto` varchar(50) DEFAULT NULL
@@ -132,7 +108,7 @@ CREATE TABLE `funcionario` (
 
 CREATE TABLE `paciente` (
   `idpaciente` int(6) NOT NULL,
-  `id` int(6) DEFAULT NULL,
+  `id_usuario` int(6) DEFAULT NULL,
   `tel_contacto` varchar(50) DEFAULT NULL,
   `nro_hospital` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -188,13 +164,22 @@ CREATE TABLE `traslado` (
 --
 
 CREATE TABLE `usuario` (
-  `id` int(11) NOT NULL,
-  `nombre` varchar(50) DEFAULT NULL,
-  `apellido` varchar(50) DEFAULT NULL,
-  `documento` varchar(50) DEFAULT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  `contrasena` varchar(255) DEFAULT NULL
+  `nombre` varchar(50) NOT NULL,
+  `apellido` varchar(50) NOT NULL,
+  `cedula_identidad` int(11) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `pass` varchar(255) NOT NULL,
+  `id_usuario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`nombre`, `apellido`, `cedula_identidad`, `email`, `pass`, `id_usuario`) VALUES
+('sergio', 'dawi', 2147483647, 'dawi@gmail.com', 'b647d520fce24fd0339be3c6c82d56077a65664ac9a26e4fd525baa6cabe0fe8', 1),
+('Skay', 'Beilinson', 19762001, 'skayyy@gmail.com', 'b647d520fce24fd0339be3c6c82d56077a65664ac9a26e4fd525baa6cabe0fe8', 2),
+('Gaston', 'Gómez', 57570155, 'gomez@gmail.com', 'dfd7b78ad72effb53082ab8c6282b8f832c5ba462473916637304863421a5a51', 3);
 
 --
 -- Índices para tablas volcadas
@@ -211,13 +196,6 @@ ALTER TABLE `ambulancia`
 --
 ALTER TABLE `clase`
   ADD PRIMARY KEY (`idclase`);
-
---
--- Indices de la tabla `datosregister`
---
-ALTER TABLE `datosregister`
-  ADD PRIMARY KEY (`id_usuario`),
-  ADD UNIQUE KEY `cedula` (`cedula_identidad`);
 
 --
 -- Indices de la tabla `documentacion`
@@ -245,14 +223,14 @@ ALTER TABLE `encuesta`
 --
 ALTER TABLE `funcionario`
   ADD PRIMARY KEY (`idfuncionario`),
-  ADD KEY `fk_funcionario_usuario` (`id`);
+  ADD KEY `fk_funcionario_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `paciente`
 --
 ALTER TABLE `paciente`
   ADD PRIMARY KEY (`idpaciente`),
-  ADD KEY `fk_paciente_usuario` (`id`);
+  ADD KEY `fk_paciente_usuario` (`id_usuario`);
 
 --
 -- Indices de la tabla `qr`
@@ -279,16 +257,17 @@ ALTER TABLE `traslado`
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `cedula` (`cedula_identidad`);
 
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
 --
--- AUTO_INCREMENT de la tabla `datosregister`
+-- AUTO_INCREMENT de la tabla `usuario`
 --
-ALTER TABLE `datosregister`
+ALTER TABLE `usuario`
   MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
@@ -312,13 +291,13 @@ ALTER TABLE `encuesta`
 -- Filtros para la tabla `funcionario`
 --
 ALTER TABLE `funcionario`
-  ADD CONSTRAINT `fk_funcionario_usuario` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `fk_funcionario_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
 -- Filtros para la tabla `paciente`
 --
 ALTER TABLE `paciente`
-  ADD CONSTRAINT `fk_paciente_usuario` FOREIGN KEY (`id`) REFERENCES `usuario` (`id`);
+  ADD CONSTRAINT `fk_paciente_usuario` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`);
 
 --
 -- Filtros para la tabla `qr`

@@ -16,7 +16,7 @@ if (isset($_POST['iniciar_sesion'])) {
     $id_ingresado = $_POST['id'];
     $password_ingresada = $_POST['password'];
  
-    $consulta = "SELECT * FROM datosregister
+    $consulta = "SELECT * FROM usuario
                  WHERE cedula_identidad = '$id_ingresado'
                  AND pass = SHA2('$password_ingresada', 256)";
  
