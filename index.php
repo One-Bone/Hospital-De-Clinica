@@ -22,8 +22,8 @@
         <div class="user-profile">
             <i class="fa-solid fa-circle-user avatar"></i>
             <!-- Session -->
-            <?php if (isset($_SESSION['user_id'])): ?>
-                <a href="perfil.html" class="user-name"><span><?php echo $_SESSION['user_name']; ?></span></a>
+            <?php if (isset($_SESSION['id'])): ?>
+                <a href="perfil.html" class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a>
             <?php else: ?>
                 <a href="php/login.php"><span>Iniciar Sesion</span></a>
             <?php endif; ?>
@@ -60,12 +60,21 @@
 
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
-            <ul>
-                <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
-                <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
-                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
-                <li class="MiniBtn"><a href="#">Cerrar sesion</a></li>
-            </ul>
+
+            <!-- Session -->
+            <?php if (isset($_SESSION['id'])): ?>
+                <ul>
+                    <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
+                    <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
+                    <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
+                    <li class="MiniBtn"><a href="php/logout.php">Cerrar sesion</a></li>
+                </ul>
+            <?php else: ?>
+                <ul>
+                    <li class="MiniBtn"><a href="php/login.php">Iniciar Sesion</a></li>
+                    <li class="MiniBtn"><a href="register.html">Registrarse</a></li>
+                </ul>
+            <?php endif; ?>
         </div>
 
         <!-- Button Toggle -->

@@ -30,6 +30,7 @@ if (isset($_POST['iniciar_sesion'])) {
         $_SESSION['id'] = $usuario_logueado['id_usuario'];
         $_SESSION['cedula'] = $usuario_logueado['cedula_identidad'];
         $_SESSION['nombre'] = $usuario_logueado['nombre'];
+        $_SESSION['apellido'] = $usuario_logueado['apellido'];
 
         header("Location: ../index.php");
         exit;
