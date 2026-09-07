@@ -1,5 +1,6 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,13 +21,18 @@
         </div>
         <div class="user-profile">
             <i class="fa-solid fa-circle-user avatar"></i>
-            <a href="login.html"><span>Iniciar Sesion</span></a>
+            <!-- Session -->
+            <?php if (isset($_SESSION['user_id'])): ?>
+                <a href="perfil.html" class="user-name"><span><?php echo $_SESSION['user_name']; ?></span></a>
+            <?php else: ?>
+                <a href="php/login.php"><span>Iniciar Sesion</span></a>
+            <?php endif; ?>
         </div>
     </div>
 
     <!-- Menu -->
     <div class="menu" id="menu-index">
-        <a href="index.html">Inicio</a>
+        <a href="index.php">Inicio</a>
         <a href="documentos.html">Historial</a>
         <a href="perfil.html">Perfil</a>
         <a href="viajes.html">Viajes</a>

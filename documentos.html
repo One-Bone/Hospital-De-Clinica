@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital de Clinica Montevideo - Documentación</title>
+    
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/historial.css" as="style">
     <link rel="stylesheet" href="css/historial.css" as="style">
-    <!-- FontAwesome para los íconos -->
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -23,13 +24,13 @@
             </div>
             <div class="user-profile">
                 <i class="fa-solid fa-circle-user avatar"></i>
-                <a href="login.html"><span>Iniciar Sesion</span></a>
+                <a href="login.php"><span>Iniciar Sesion</span></a>
             </div>
         </div>
 
         <!-- Menu -->
         <div class="menu" id="menu-index">
-            <a href="index.html">Inicio</a>
+            <a href="index.php">Inicio</a>
             <a href="documentos.html">Documentación</a>
             <a href="perfil.html">Perfil</a>
         </div>
@@ -55,7 +56,7 @@
                     <a href="#" class="qr-link">Ver Detalles</a>
                 </div>
 
-                <!-- (Las demás tarjetas del historial...) -->
+                <!-- Tarjetas -->
                 <div class="historial-card">
                     <div class="historial-card-header">
                         <div class="side-left-hs">
@@ -72,12 +73,8 @@
         </div>
     </main>
 
-    <!-- ========================================== -->
-    <!-- BOTONES FLOTANTES DE LA PÁGINA DOCUMENTACIÓN -->
-    <!-- ========================================== -->
 
     <!-- NUEVO: Botón Crear Documentación (Bolita flotante más arriba) -->
-    <!-- Se le agregan estilos para garantizar que sea un círculo perfecto (bolita) y esté centrado -->
     <button class="crg-btn" id="createBtn" 
         style="bottom: 90px; background-color: #007bff; border-radius: 50%; width: 50px; height: 50px; display: flex; justify-content: center; align-items: center; padding: 0;" 
         title="Crear Nueva Documentación">
@@ -85,14 +82,10 @@
     </button>
 
     <!-- ORIGINAL: Botón de Cargar Archivo -->
-    <!-- Para que ambos tengan el mismo tamaño, puedes asegurarte de que este también sea redondo en tu CSS, o dejarlo así si ya funciona -->
     <button class="crg-btn" id="crgBtn" title="Cargar Archivo">
         <i class="cr-solid cr-plus" id="cr-plus"></i>
     </button>
 
-    <!-- ========================================== -->
-
-    <!-- NUEVO: Modal para CREAR Documentación -->
     <div class="modal-overlay" id="createModal">
         <div class="modal-card">
             <h2 class="modal-title">Crear Documentación</h2>
@@ -111,7 +104,6 @@
         </div>
     </div>
 
-    <!-- ORIGINAL: Modal para Cargar Documento (Subir Archivos) -->
     <div class="modal-overlay" id="chargeModal">
         <div class="modal-card">
             <h2 class="modal-title">Cargar Documento</h2>
