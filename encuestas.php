@@ -7,8 +7,8 @@
     <title>Hospital de Clinica Montevideo</title>
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css" as="style">
-    <link rel="preload" href="css/historial.css" as="style">
-    <link rel="stylesheet" href="css/historial.css" as="style">
+    <link rel="preload" href="css/doc-enc.css" as="style">
+    <link rel="stylesheet" href="css/doc-enc.css" as="style">
 </head>
 <body>
     <!-- Header -->
