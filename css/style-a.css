@@ -377,3 +377,9 @@ input:checked + .slider:before {
 .dropdown-item:hover {
     background-color: #f0f4f8;
 }
+
+.login-prompt{
+    align-content: center;
+    justify-content: center;
+    color: var(--grey-color);
+}

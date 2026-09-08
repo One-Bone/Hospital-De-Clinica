@@ -8,6 +8,7 @@
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css" as="style">
     
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -16,14 +17,14 @@
         <div class="logo" id="logo-index">
         Hospital de Clinica <br> Montevideo
         </div>
-        <div class="buscador" id="buscador-index">
-            <input type="text" placeholder="Buscar...">
-        </div>
+        <!-- <div class="buscador" id="buscador-index"> -->
+            <!-- <input type="text" placeholder="Buscar..."> -->
+        <!-- </div> -->
         <div class="user-profile">
-            <i class="fa-solid fa-circle-user avatar"></i>
             <!-- Session -->
             <?php if (isset($_SESSION['id'])): ?>
-                <a href="perfil.html" class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a>
+                <i class="fa-solid fa-circle-user avatar"></i>
+                <b><a href="perfil.html" class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a></b>
             <?php else: ?>
                 <a href="php/login.php"><span>Iniciar Sesion</span></a>
             <?php endif; ?>
@@ -32,25 +33,36 @@
 
     <!-- Menu -->
     <div class="menu" id="menu-index">
+        <?php if (isset($_SESSION['id'])): ?>
         <a href="index.php">Inicio</a>
-        <a href="documentos.html">Historial</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="viajes.html">Viajes</a>
+        <a href="documentos.php">Documentos</a>
+        <a href="encuestas.php">Encuestas</a>
+        <a href="viajes.php">Viajes</a>
+        <?php else: ?>
+        <a href="index.php">Inicio</a>
+        <?php endif; ?>
     </div>
     </header>
 
     <!-- Main Content -->
     <main class="main-body">
         <div class="main-content" id="main-content-index">
-            <section class="services-section">
-                <div class="services-grid">
-                    <div class="service-item"><div onclick="window.location.href='viajes.html'" class="service-card"></div>Viajes</div>
-                    
-                    <div class="service-item"><div onclick="window.location.href='encuestas.html'" class="service-card"></div>Encuestas</div>
-                    
-                    <div class="service-item"><div onclick="window.location.href='documentos.html'" class="service-card"></div>Documentos</div>
-                </div>
-            </section>
+            <?php if (isset($_SESSION['id'])): ?>
+                <section class="services-section">
+                    <div class="services-grid">
+                        <div class="service-item"><div onclick="window.location.href='viajes.php'" class="service-card"></div>Viajes</div>
+
+                        <div class="service-item"><div onclick="window.location.href='encuestas.php'" class="service-card"></div>Encuestas</div>
+
+                        <div class="service-item"><div onclick="window.location.href='documentos.php'" class="service-card"></div>Documentos</div>
+                    </div>
+                </section>
+            <?php else: ?>
+                <section class="login-prompt">
+                    <p>Inicia sesión para acceder a los servicios del Hospital de Clínica Montevideo.</p>
+                    <a href="php/login.php" class="login-button">Iniciar Sesión</a>
+                </section>
+            <?php endif; ?>
         </div>
     </main>
 

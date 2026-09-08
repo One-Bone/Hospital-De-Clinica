@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/viajes.css" as="style">
     <link rel="stylesheet" href="css/viajes.css" as="style">
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
 </head>
@@ -16,10 +18,14 @@
     <header class="header" id="header-index">
     <!-- Menu -->
     <div class="menu" id="menu-index">
+        <?php if (isset($_SESSION['id'])): ?>
         <a href="index.php">Inicio</a>
-        <a href="documentos.html">Historial</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="viajes.html">Viajes</a>
+        <a href="documentos.php">Documentos</a>
+        <a href="encuestas.php">Encuestas</a>
+        <a href="viajes.php">Viajes</a>
+        <?php else: ?>
+        <a href="index.php">Inicio</a>
+        <?php endif; ?>
     </div>
     </header>
 
@@ -120,12 +126,19 @@
 
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
-            <ul>
-                <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
-                <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
-                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
-                <li class="MiniBtn"><a href="#">Cerrar sesion</a></li>
-            </ul>
+            <?php if (isset($_SESSION['id'])): ?>
+                <ul>
+                    <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
+                    <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
+                    <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
+                    <li class="MiniBtn"><a href="php/logout.php">Cerrar sesion</a></li>
+                </ul>
+            <?php else: ?>
+                <ul>
+                    <li class="MiniBtn"><a href="php/login.php">Iniciar Sesion</a></li>
+                    <li class="MiniBtn"><a href="register.html">Registrarse</a></li>
+                </ul>
+            <?php endif; ?>
         </div>
 
         <!-- Button Toggle -->
