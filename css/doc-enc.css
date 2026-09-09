@@ -47,7 +47,7 @@
     align-items: center;
     margin-bottom: 0.5rem;
 }
-.crg-btn{
+.crg-btn {
     position: fixed;
     bottom: 30px;
     right: 30px;
@@ -58,4 +58,64 @@
     border: none; 
     cursor: pointer; 
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.crg-btn:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.form-carga {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-carga label {
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.input-carga {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+}
+
+.input-carga:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(58, 77, 191, 0.3);
+}
+
+textarea.input-carga {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.btn-submit-carga {
+    padding: 12px;
+    background-color: var(--secondary-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit-carga:hover {
+    background-color: var(--primary-color);
 }

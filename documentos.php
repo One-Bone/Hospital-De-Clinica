@@ -63,8 +63,12 @@ $resultado_docs = mysqli_query($enlace, $consulta_docs);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital de Clinica Montevideo - Documentación</title>
+    
+    <link rel="preload" href="css/style-a.css" as="style">
+    <link rel="preload" href="css/doc-enc.css?v=<?php echo time(); ?>" as="style">
+    
     <link rel="stylesheet" href="css/style-a.css">
-    <link rel="stylesheet" href="css/doc-enc.css">
+    <link rel="stylesheet" href="css/doc-enc.css?v=<?php echo time(); ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -133,7 +137,7 @@ $resultado_docs = mysqli_query($enlace, $consulta_docs);
         </div>
     </main>
 
-    <!-- Load file button -->
+<!-- Load file button-->
     <button class="crg-btn" id="crgBtn" title="Cargar Archivo">
         <i class="fa-solid fa-plus" style="font-size: 1.8rem; color: white;"></i>
     </button>
@@ -144,18 +148,18 @@ $resultado_docs = mysqli_query($enlace, $consulta_docs);
             <h2 class="modal-title">Cargar Documento</h2>
             
             <!-- multi-file upload -->
-            <form id="chargeForm" action="documentos.php" method="POST" enctype="multipart/form-data" style="display: flex; flex-direction: column;">
+            <form id="chargeForm" action="documentos.php" method="POST" enctype="multipart/form-data" class="form-carga">
                 
                 <label for="studyName">Título del Documento:</label>
-                <input type="text" id="studyName" name="studyName" required style="margin-bottom: 15px; padding: 8px; border-radius: 4px; border: 1px solid #ccc;">
+                <input type="text" id="studyName" name="studyName" required class="input-carga">
 
                 <label for="studyDesc">Descripción:</label>
-                <textarea id="studyDesc" name="studyDesc" rows="3" required style="margin-bottom: 15px; padding: 8px; border-radius: 4px; border: 1px solid #ccc; resize: vertical;"></textarea>
+                <textarea id="studyDesc" name="studyDesc" rows="3" required class="input-carga"></textarea>
 
                 <label for="studyFile">Archivo (PDF, JPG, PNG):</label>
-                <input type="file" id="studyFile" name="studyFile" accept=".pdf,.jpg,.png,.jpeg" required style="margin-bottom: 25px;">
+                <input type="file" id="studyFile" name="studyFile" accept=".pdf,.jpg,.png,.jpeg" required class="input-carga" style="border: none; padding-left: 0;">
 
-                <button type="submit" style="padding: 12px; background-color: var(--secondary-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                <button type="submit" class="btn-submit-carga">
                     Subir y Guardar
                 </button>
             </form>
