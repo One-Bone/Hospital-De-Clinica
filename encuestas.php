@@ -1,4 +1,20 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+
+// BD connect
+$server = "localhost";
+$usuario = "root";
+$pass = "";
+$bdatos = "hospital";
+$enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
+
+// Verify log session
+if (!isset($_SESSION['id'])) {
+    header("Location: php/login.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,9 +22,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital de Clinica Montevideo</title>
     <link rel="preload" href="css/style-a.css" as="style">
-    <link rel="stylesheet" href="css/style-a.css" as="style">
+    <link rel="stylesheet" href="css/style-a.css?v=<?php echo time(); ?>" as="style">
+    
     <link rel="preload" href="css/doc-enc.css" as="style">
-    <link rel="stylesheet" href="css/doc-enc.css" as="style">
+    <link rel="stylesheet" href="css/doc-enc.css?v=<?php echo time(); ?>" as="style">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -32,14 +51,10 @@
 
     <!-- Menu -->
     <div class="menu" id="menu-index">
-        <?php if (isset($_SESSION['id'])): ?>
         <a href="index.php">Inicio</a>
         <a href="documentos.php">Documentos</a>
         <a href="encuestas.php">Encuestas</a>
         <a href="viajes.php">Viajes</a>
-        <?php else: ?>
-        <a href="index.php">Inicio</a>
-        <?php endif; ?>
     </div>
     </header>
 
@@ -54,7 +69,7 @@
                 <div class="historial-card">
                     <div class="historial-card-header">
                         <div class="side-left-hs">
-                            <h2 class="historial-title">Estudio 1</h2>
+                            <h2 class="historial-title">Encuesta</h2>
                         </div>
                         <div class="side-right-hs">
                             <p class="historial-date">Fecha</p>
@@ -77,71 +92,9 @@
                     <a href="#" class="qr-link">Ver Detalles</a>
                 </div>
 
-                <div class="historial-card">
-                    <div class="historial-card-header">
-                        <div class="side-left-hs">
-                            <h2 class="historial-title">Estudio 3</h2>
-                        </div>
-                        <div class="side-right-hs">
-                            <p class="historial-date">Fecha</p>
-                        </div>
-                    </div>
-                    <p class="historial-description">Descripción del estudio 3  .</p>
-                    <a href="#" class="qr-link">Ver Detalles</a>
-                </div>
-
-                <div class="historial-card">
-                    <div class="historial-card-header">
-                        <div class="side-left-hs">
-                            <h2 class="historial-title">Estudio 4</h2>
-                        </div>
-                        <div class="side-right-hs">
-                            <p class="historial-date">Fecha</p>
-                        </div>
-                    </div>
-                    <p class="historial-description">Descripción del estudio 4.</p>
-                    <a href="#" class="qr-link">Ver Detalles</a>
-                </div>
-
-                <div class="historial-card">
-                    <div class="historial-card-header">
-                        <div class="side-left-hs">
-                            <h2 class="historial-title">Estudio 5</h2>
-                        </div>
-                        <div class="side-right-hs">
-                            <p class="historial-date">Fecha</p>
-                        </div>
-                    </div>
-                    <p class="historial-description">Descripción del estudio 5.</p>
-                    <a href="#" class="qr-link">Ver Detalles</a>
-                </div>
-
             </div>
         </div>
     </main>
-
-    <!-- Button Charge -->
-    <button class="crg-btn" id="crgBtn">
-        <i class="cr-solid cr-plus" id="cr-plus"></i>
-    </button>
-
-    <!-- Charge Modal -->
-    <div class="modal-overlay" id="chargeModal">
-        <div class="modal-card">
-            <h2 class="modal-title">Cargar Estudio</h2>
-            <form id="chargeForm" action="#" method="post" enctype="multipart/form-data">
-                <label for="studyName">Nombre del Estudio:</label>
-                <input type="text" id="studyName" name="studyName" required>
-
-                <label for="studyDate">Fecha del Estudio:</label>
-                <input type="date" id="studyDate" name="studyDate" required>
-
-                <label for="studyFile">Archivo del Estudio:</label>
-                <input type="file" id="studyFile" name="studyFile" accept=".pdf,.jpg,.png" required>
-
-                <button type="submit">Cargar</button>
-            </form>
-        </div>
 
     <!-- Seccion Mini Menu -->
     <!-- Button FLoat -->
@@ -149,19 +102,12 @@
 
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
-            <?php if (isset($_SESSION['id'])): ?>
                 <ul>
                     <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
                     <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
                     <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
                     <li class="MiniBtn"><a href="php/logout.php">Cerrar sesion</a></li>
                 </ul>
-            <?php else: ?>
-                <ul>
-                    <li class="MiniBtn"><a href="php/login.php">Iniciar Sesion</a></li>
-                    <li class="MiniBtn"><a href="register.html">Registrarse</a></li>
-                </ul>
-            <?php endif; ?>
         </div>
 
         <!-- Button Toggle -->
