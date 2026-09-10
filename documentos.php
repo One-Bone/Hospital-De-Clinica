@@ -56,6 +56,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['studyFile'])) {
 // All files from DB order by timestamp
 $consulta_docs = "SELECT * FROM documentacion ORDER BY fecha_carga DESC";
 $resultado_docs = mysqli_query($enlace, $consulta_docs);
+
+// Deleting doc
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
+    $id_eliminar = (int)$_POST['delete_doc_id'];
+    
+    // Searching file path in BD
+    $consulta_archivo = "SELECT archivo FROM documentacion WHERE iddocumento = $id_eliminar";
+    $resultado_archivo = mysqli_query($enlace, $consulta_archivo);
+    
+    if ($fila = mysqli_fetch_assoc($resultado_archivo)) {
+        $ruta_archivo = $fila['archivo'];
+        // If file exist, delete
+        if (file_exists($ruta_archivo)) {
+            unlink($ruta_archivo); 
+        }
+    }
+    
+    // Delete from DB
+    $delete_sql = "DELETE FROM documentacion WHERE iddocumento = $id_eliminar";
+    mysqli_query($enlace, $delete_sql);
+    
+    // Reload page
+    header("Location: documentos.php");
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -116,9 +141,14 @@ $resultado_docs = mysqli_query($enlace, $consulta_docs);
                                 <div class="side-left-hs">
                                     <h2 class="historial-title"><?php echo htmlspecialchars($doc['titulo']); ?></h2>
                                 </div>
-                                <div class="side-right-hs">
+                                <div class="side-right-hs" style="display: flex; align-items: center; gap: 15px;">
                                     <!-- Format Date and Hour -->
                                     <p class="historial-date"><?php echo date("d/m/Y H:i", strtotime($doc['fecha_carga'])); ?></p>
+                                    
+                                    <!-- Botón de Basurero. Usamos data-id para guardar el ID oculto -->
+                                    <button class="btn-delete-doc" data-id="<?php echo $doc['iddocumento']; ?>" title="Eliminar documento">
+                                        <i class="fa-solid fa-trash" style="color: #dc3545; font-size: 1.2rem;"></i>
+                                    </button>
                                 </div>
                             </div>
                             <p class="historial-description" style="margin-bottom: 15px; color: #555;">
@@ -181,26 +211,23 @@ $resultado_docs = mysqli_query($enlace, $consulta_docs);
         </button>
     </div>
 
-    <script src="js/menu.js"></script>
-    
-    <!-- Script open file modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const crgBtn = document.getElementById('crgBtn');
-            const chargeModal = document.getElementById('chargeModal');
+    <script src="js/menu.js?v=<?php echo time(); ?>"></script>
+    <script src="js/doc.js?v=<?php echo time(); ?>"></script>
 
-            // Open
-            crgBtn.addEventListener('click', () => {
-                chargeModal.classList.add('active');
-            });
-
-            // Close click outside
-            chargeModal.addEventListener('click', (e) => {
-                if (e.target === chargeModal) {
-                    chargeModal.classList.remove('active');
-                }
-            });
-        });
-    </script>
+    <!-- Modal Confirmar Eliminación -->
+    <div class="modal-overlay" id="deleteModal">
+        <div class="modal-card" style="height: auto; min-height: 200px; padding: 2.5rem;">
+            <h2 class="modal-title" style="margin-bottom: 1rem; color: #dc3545;">Confirmar Eliminación</h2>
+            <p style="text-align: center; margin-bottom: 2rem; color: #555;">¿Estás seguro de que deseas eliminar este documento? Se borrará permanentemente de la base de datos y del servidor.</p>
+            
+            <form id="deleteForm" action="documentos.php" method="POST" style="display: flex; justify-content: space-around;">
+                <!-- Este input oculto guarda el ID del documento que vamos a borrar -->
+                <input type="hidden" name="delete_doc_id" id="delete_doc_id_input" value="">
+                
+                <button type="button" id="btnCancelDelete" style="padding: 10px 25px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer; font-weight: bold;">Cancelar</button>
+                <button type="submit" style="padding: 10px 25px; border-radius: 8px; border: none; background: #dc3545; color: white; font-weight: bold; cursor: pointer;">Sí, Eliminar</button>
+            </form>
+        </div>
+    </div>
 </body>
 </html>

@@ -119,3 +119,12 @@ textarea.input-carga {
 .btn-submit-carga:hover {
     background-color: var(--primary-color);
 }
+.btn-delete-doc {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+.btn-delete-doc:hover {
+    transform: scale(1.2);
+}
