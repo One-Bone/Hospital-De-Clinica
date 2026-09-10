@@ -118,6 +118,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         <div class="menu" id="menu-index">
             <a href="index.php">Inicio</a>
             <a href="documentos.php">Documentos</a>
+            <a href="personas.php">Personas</a>
             <a href="encuestas.php">Encuestas</a>
             <a href="viajes.php">Viajes</a>
         </div>

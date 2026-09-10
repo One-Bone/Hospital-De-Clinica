@@ -173,10 +173,10 @@ $resultado_personas = mysqli_query($enlace, $consulta_personas);
     <title>Hospital de Clínica Montevideo - Gestión de Personas</title>
     
     <link rel="preload" href="css/style-a.css" as="style">
-    <link rel="preload" href="css/personas.css?v=<?php echo time(); ?>" as="style">
+    <link rel="preload" href="css/persona.css?v=<?php echo time(); ?>" as="style">
     
     <link rel="stylesheet" href="css/style-a.css">
-    <link rel="stylesheet" href="css/personas.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/persona.css?v=<?php echo time(); ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -201,7 +201,7 @@ $resultado_personas = mysqli_query($enlace, $consulta_personas);
         <div class="menu" id="menu-index">
             <a href="index.php">Inicio</a>
             <a href="documentos.php">Documentos</a>
-            <a href="personas.php" style="border-bottom: 2px solid var(--secondary-color);">Personas</a>
+            <a href="personas.php">Personas</a>
             <a href="encuestas.php">Encuestas</a>
             <a href="viajes.php">Viajes</a>
         </div>
@@ -493,6 +493,6 @@ $resultado_personas = mysqli_query($enlace, $consulta_personas);
     </div>
 
     <script src="js/menu.js?v=<?php echo time(); ?>"></script>
-    <script src="js/personas.js?v=<?php echo time(); ?>"></script>
+    <script src="js/persona.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

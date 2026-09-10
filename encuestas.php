@@ -53,6 +53,7 @@ if (!isset($_SESSION['id'])) {
     <div class="menu" id="menu-index">
         <a href="index.php">Inicio</a>
         <a href="documentos.php">Documentos</a>
+        <a href="personas.php">Personas</a>
         <a href="encuestas.php">Encuestas</a>
         <a href="viajes.php">Viajes</a>
     </div>

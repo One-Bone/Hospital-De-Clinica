@@ -21,6 +21,7 @@
         <?php if (isset($_SESSION['id'])): ?>
         <a href="index.php">Inicio</a>
         <a href="documentos.php">Documentos</a>
+        <a href="personas.php">Personas</a>
         <a href="encuestas.php">Encuestas</a>
         <a href="viajes.php">Viajes</a>
         <?php else: ?>
