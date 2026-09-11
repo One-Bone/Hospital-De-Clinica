@@ -90,10 +90,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
     <title>Hospital de Clinica Montevideo - Documentación</title>
     
     <link rel="preload" href="css/style-a.css" as="style">
-    <link rel="preload" href="css/doc-enc.css?v=<?php echo time(); ?>" as="style">
+    <link rel="preload" href="css/doc.css?v=<?php echo time(); ?>" as="style">
     
     <link rel="stylesheet" href="css/style-a.css">
-    <link rel="stylesheet" href="css/doc-enc.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="css/doc.css?v=<?php echo time(); ?>">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>

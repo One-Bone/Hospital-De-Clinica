@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hospital de Clinica Montevideo</title>
     <link rel="preload" href="css/style-a.css" as="style">
-    <link rel="stylesheet" href="css/style-a.css" as="style">
+    <link rel="stylesheet" href="css/style-a.css?v=<?php echo time(); ?>" as="style">
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -24,7 +24,7 @@
             <!-- Session -->
             <?php if (isset($_SESSION['id'])): ?>
                 <i class="fa-solid fa-circle-user avatar"></i>
-                <b><a href="perfil.html" class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a></b>
+                <b><a class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a></b>
             <?php else: ?>
                 <a href="php/login.php"><span>Iniciar Sesion</span></a>
             <?php endif; ?>
@@ -51,11 +51,34 @@
             <?php if (isset($_SESSION['id'])): ?>
                 <section class="services-section">
                     <div class="services-grid">
-                        <div class="service-item"><div onclick="window.location.href='viajes.php'" class="service-card"></div>Viajes</div>
 
-                        <div class="service-item"><div onclick="window.location.href='encuestas.php'" class="service-card"></div>Encuestas</div>
+                        <div class="service-item">
+                            <div onclick="window.location.href='documentos.php'" class="service-card">
+                                <i class="fa-solid fa-file-alt"></i>
+                            </div>
+                            <b>Documentos</b>
+                        </div>
 
-                        <div class="service-item"><div onclick="window.location.href='documentos.php'" class="service-card"></div>Documentos</div>
+                        <div class="service-item">
+                            <div onclick="window.location.href='personas.php'" class="service-card">
+                                <i class="fa-solid fa-user-friends"></i>
+                            </div>
+                            <b>Personas</b>
+                        </div>
+
+                        <div class="service-item">
+                            <div onclick="window.location.href='encuestas.php'" class="service-card">
+                                <i class="fa-solid fa-chart-bar"></i>
+                            </div>
+                            <b>Encuestas</b>
+                        </div>
+
+                        <div class="service-item">
+                            <div onclick="window.location.href='viajes.php'" class="service-card">
+                                <i class="fa-solid fa-ambulance"></i>
+                            </div>
+                            <b>Viajes</b>
+                        </div>
                     </div>
                 </section>
             <?php else: ?>

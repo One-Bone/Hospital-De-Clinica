@@ -133,13 +133,15 @@ header{
 }
 .services-grid{
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 1.5rem;
 }
 .service-card{
     background-color: var(--primary-color);
     border-radius: 10px;
-    height: 250px;
+    height: 12rem;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
 }
@@ -151,6 +153,20 @@ header{
 .service-card:active{
     background-color: var(--pressed-primary-color);
     transition: background-color 0.1s ease;
+}
+.service-card i{
+    display: flex;
+    width: 80%;
+    height: 80%;
+    font-size: 3rem;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    justify-self: center;
+}
+.service-card:hover i{
+    color: var(--main-color);
+    transition: color 0.3s ease;
 }
 
 /* Btn Float */

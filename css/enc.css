@@ -1,0 +1,170 @@
+#main-content-historial {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 1.5rem;
+    margin: 0 auto;
+    width: 65%;
+    background-color: var(--main-color);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+.titulo-historial {
+    color: var(--primary-color);
+    font-size: 2.2rem;
+    margin-bottom: 2rem;
+}
+
+.historial-card {
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    border: 1px solid #eef0f3;
+    background-color: #fafafa;
+    transition: all 0.3s ease;
+}
+
+.historial-card:hover {
+    background-color: var(--background-color);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.historial-card-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.historial-title {
+    color: var(--primary-color);
+    font-size: 1.3rem;
+    margin: 0;
+}
+
+.historial-date {
+    font-size: 0.95rem;
+    color: #555;
+    font-weight: bold;
+}
+
+/* Contenedor de los links de Google Forms */
+.links-container {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+    flex-wrap: wrap;
+}
+
+.link-btn {
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.link-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+.btn-responder {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-administrar {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Botón Eliminar de la Tarjeta */
+.btn-delete-encuesta {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.btn-delete-encuesta:hover {
+    transform: scale(1.2);
+}
+
+/* =========================================
+   BOTÓN FLOTANTE Y MODAL
+========================================= */
+.crg-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--secondary-color); 
+    border-radius: 50%; 
+    width: 60px; 
+    height: 60px; 
+    border: none; 
+    cursor: pointer; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.crg-btn:hover {
+    background-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.form-carga {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-carga label {
+    margin-bottom: 5px;
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+.input-carga {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    font-family: inherit;
+}
+
+.input-carga:focus {
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 5px rgba(58, 77, 191, 0.3);
+}
+
+.btn-submit-carga {
+    padding: 12px;
+    background-color: var(--secondary-color);
+    color: var(--main-color);
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit-carga:hover {
+    background-color: var(--primary-color);
+}
