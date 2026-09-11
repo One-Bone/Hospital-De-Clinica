@@ -25,8 +25,7 @@ if (isset($_POST['iniciar_sesion'])) {
     if (mysqli_num_rows($resultado) === 1) {
         $usuario_logueado = mysqli_fetch_assoc($resultado);
 
-        // Guardamos los datos del usuario en la sesion,
-        // para poder usarlos en las demas paginas del sitio.
+        #Guardar datos de sesion para que puedan ser usados en el resto de la pagina
         $_SESSION['id'] = $usuario_logueado['id_usuario'];
         $_SESSION['cedula'] = $usuario_logueado['cedula_identidad'];
         $_SESSION['nombre'] = $usuario_logueado['nombre'];
