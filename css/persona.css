@@ -191,3 +191,71 @@
 .btn-action:hover {
     transform: scale(1.2);
 }
+
+/* Filters */
+.control-bar {
+    background: #f4f6f9;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 25px;
+    border: 1px solid #e1e5eb;
+}
+
+.form-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 25px;
+    padding: 5px 15px;
+    flex-grow: 1;
+    max-width: 400px;
+}
+
+.search-box i {
+    color: #888;
+    margin-right: 10px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    width: 100%;
+    padding: 8px 0;
+    font-size: 0.95rem;
+}
+
+.select-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.select-box label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.select-box select {
+    padding: 8px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    background: #fff;
+    outline: none;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.select-box select:focus {
+    border-color: var(--secondary-color);
+}

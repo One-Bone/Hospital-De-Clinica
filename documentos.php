@@ -207,6 +207,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
                 <li class="MiniBtn"><a href="php/logout.php">Cerrar sesión</a></li>
             </ul>
         </div>
+        <!-- Floating Action Button -->
         <button class="fab-btn" id="fabBtn">
             <i class="fa-solid fa-bars" id="fabIcon"></i>
         </button>
