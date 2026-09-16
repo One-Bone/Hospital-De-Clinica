@@ -31,9 +31,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
-// =============================================================
 // B. ELIMINAR ENCUESTA
-// =============================================================
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'eliminar') {
     $id_eliminar = (int)$_POST['delete_encuesta_id'];
     mysqli_query($enlace, "DELETE FROM encuesta WHERE idencuesta = $id_eliminar");
@@ -41,9 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
-// =============================================================
-// C. LECTURA DE ENCUESTAS
-// =============================================================
+// LECTURA DE ENCUESTAS
 $consulta_encuestas = "SELECT * FROM encuesta ORDER BY fecha_creacion DESC";
 $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
 ?>

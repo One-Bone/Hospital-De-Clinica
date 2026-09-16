@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // -------------------------------------------------------------
     // MODAL DE CREAR ENCUESTA
-    // -------------------------------------------------------------
     const btnCargarEncuesta = document.getElementById('btnCargarEncuesta');
     const modalAltaEncuesta = document.getElementById('modalAltaEncuesta');
 
@@ -18,9 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // -------------------------------------------------------------
-    // MODAL DE ELIMINAR ENCUESTA
-    // -------------------------------------------------------------
+    // ELIMINAR ENCUESTA
     const deleteBtns = document.querySelectorAll('.btn-delete-encuesta');
     const deleteEncuestaModal = document.getElementById('deleteEncuestaModal');
     const btnCancelDeleteEncuesta = document.getElementById('btnCancelDeleteEncuesta');
