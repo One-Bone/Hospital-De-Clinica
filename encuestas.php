@@ -2,11 +2,9 @@
 session_start(); 
 
 // 1. CONEXIÓN A LA BASE DE DATOS
-$server = "localhost";
-$usuario = "root";
-$pass = "";
-$bdatos = "hospital";
-$enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
+require_once 'php/conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
+
+
 
 // Verificar sesión activa
 if (!isset($_SESSION['id'])) {

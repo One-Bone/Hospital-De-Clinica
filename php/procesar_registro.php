@@ -1,11 +1,8 @@
 <?php
 
-$server = "localhost";
-$usuario = "root";
-$pass = "";
-$bdatos = "hospital";
+require_once 'php/conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
 
-$enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
+$error_login = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 

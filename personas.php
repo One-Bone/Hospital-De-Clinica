@@ -2,11 +2,8 @@
 session_start();
 
 // BD connect
-$server = "localhost";
-$usuario = "root";
-$pass = "";
-$bdatos = "hospital";
-$enlace = mysqli_connect($server, $usuario, $pass, $bdatos);
+require_once 'php/conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
+
 
 if (!$enlace) {
     die("Error al conectar con la base de datos: " . mysqli_connect_error());
