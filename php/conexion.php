@@ -5,7 +5,7 @@
 require_once 'config.php';
 
 // 2. intento de conexion con la base de datos
-$con = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
+$con = new mysqli($server, $usuario, $pass, $bdatos);
 
 // 3. verificacion en caso de error 
 if ($con->connect_error) {
