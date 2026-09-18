@@ -3,7 +3,7 @@
 session_start();
 
 
-require_once 'php/conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
+require_once 'conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
 
 $error_login = "";
 
