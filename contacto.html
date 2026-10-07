@@ -19,19 +19,37 @@
         <p>Correo electrónico: info@hospitalmontevideo.com</p>
         <p>Dirección: Calle Principal 123, Montevideo</p>
         <h2>Formulario de contacto</h2>
-        <form>
+        <form id="form-contacto">
             <label for="name">Nombre:</label><br>
-            <input type="text" id="name" name="name"><br>
+            <input type="text" id="name" name="name" data-key="name"><br>
             <label for="id">Número de cedula:</label><br>
-            <input type="text" id="id" name="id"><br>
+            <input type="text" id="id" name="id" data-key="id"><br>
             <label for="email">Correo electrónico:</label><br>
-            <input type="email" id="email" name="email"><br>
+            <input type="email" id="email" name="email" data-key="email"><br>
             <label for="subject">Asunto:</label><br>
-            <input type="text" id="subject" name="subject"><br>
+            <input type="text" id="subject" name="subject" data-key="subject"><br>
             <label for="message">Mensaje:</label><br>
-            <textarea id="message" name="message"></textarea><br>
+            <textarea id="message" name="message" data-key="message"></textarea><br>
             <input type="submit" value="Enviar">
         </form>
     </main>
+    <script>
+        fetch('contacto.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('No se pudo cargar contacto.json');
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.querySelectorAll('[data-key]').forEach(field => {
+                    const key = field.dataset.key;
+                    if (Object.prototype.hasOwnProperty.call(data, key)) {
+                        field.value = data[key];
+                    }
+                });
+            })
+            .catch(error => console.error(error));
+    </script>
 </body>
 </html>
