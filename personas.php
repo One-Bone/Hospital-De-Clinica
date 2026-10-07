@@ -90,6 +90,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     exit;
 }
 
+// Modify Person
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'editar') {
+    $id_modificar = (int)$_POST['edit_persona_id'];
+    $nombre = trim($_POST['edit_nombre']);
+    $apellido = trim($_POST['edit_apellido']);
+    $cedula_identidad = (int)$_POST['edit_cedula_identidad'];
+    $tipo_rol = $_POST['edit_tipo_rol'];
+
+    $email = ($tipo_rol === 'funcionario' && !empty($_POST['edit_email'])) ? trim($_POST['edit_email']) : NULL;
+    
+    if (empty($_POST['edit_pass'])) {
+        $sql_user = "UPDATE usuario SET nombre = ?, apellido = ?, cedula_identidad = ?, email = ? WHERE id_usuario = ?";
+        $stmt_user = mysqli_prepare($enlace, $sql_user);
+        mysqli_stmt_bind_param($stmt_user, "ssisi", $nombre, $apellido, $cedula_identidad, $email, $id_modificar);
+    } else {
+        $pass_hashed = hash('sha256', $_POST['edit_pass']);
+        $sql_user = "UPDATE usuario SET nombre = ?, apellido = ?, cedula_identidad = ?, email = ?, pass = ? WHERE id_usuario = ?";
+        $stmt_user = mysqli_prepare($enlace, $sql_user);
+        mysqli_stmt_bind_param($stmt_user, "ssissi", $nombre, $apellido, $cedula_identidad, $email, $pass_hashed, $id_modificar);
+    }
+
+    if (mysqli_stmt_execute($stmt_user)){
+        mysqli_query($enlace, "DELETE FROM paciente WHERE id_usuario = $id_modificar");
+        mysqli_query($enlace, "DELETE FROM funcionario WHERE id_usuario = $id_modificar");
+
+        if ($tipo_rol === 'paciente') {
+            $tel_contacto = isset($_POST['edit_tel_contacto']) ? trim($_POST['edit_tel_contacto']) : NULL;
+            $nro_hospital = isset($_POST['edit_nro_hospital']) ? trim($_POST['edit_nro_hospital']) : NULL;
+
+            $sql_pac = "INSERT INTO paciente (id_usuario, tel_contacto, nro_hospital) VALUES (?, ?, ?)";
+            $stmt_pac = mysqli_prepare($enlace, $sql_pac);
+            mysqli_stmt_bind_param($stmt_pac, "iss", $id_modificar, $tel_contacto, $nro_hospital);
+            mysqli_stmt_execute($stmt_pac);
+
+        }else if($tipo_rol === 'funcionario'){
+            $cargo    = isset($_POST['edit_cargo']) ? trim($_POST['edit_cargo']) : NULL;
+            $legajo   = isset($_POST['edit_legajo']) ? trim($_POST['edit_legajo']) : NULL;
+            $contacto = isset($_POST['edit_contacto_func']) ? trim($_POST['edit_contacto_func']) : NULL;
+
+            $sql_func = "INSERT INTO funcionario (id_usuario, cargo, legajo, contacto) VALUES (?, ?, ?, ?)";
+            $stmt_func = mysqli_prepare($enlace, $sql_func);
+            mysqli_stmt_bind_param($stmt_func, "isss", $id_modificar, $cargo, $legajo, $contacto);
+            mysqli_stmt_execute($stmt_func);
+
+        }else{
+            $error_msg = "Error al modificar: Rol no válido.";
+        }
+    }else{
+        $error_msg = "Error al modificar: Es posible que la cédula ya exista.";
+    }
+}
+
 // Searching method
 // Capture user input
 $search = isset($_GET['search']) ? mysqli_real_escape_string($enlace, trim($_GET['search'])) : '';
@@ -235,7 +287,23 @@ $resultado_personas = mysqli_query($enlace, $consulta_personas);
                                     </span>
                                 </div>
                                 <div class="side-right-persona">
-                                    <button class="btn-action btn-delete-persona" data-id="<?php echo $persona['id_usuario']; ?>" title="Eliminar Persona">
+                                    <button class="btn-action btn-edit-persona" 
+                                        data-id="<?php echo $persona['id_usuario']; ?>"
+                                        data-nombre="<?php echo htmlspecialchars($persona['nombre']); ?>" 
+                                        data-apellido="<?php echo htmlspecialchars($persona['apellido']); ?>"
+                                        data-cedula="<?php echo htmlspecialchars($persona['cedula_identidad']); ?>"
+                                        data-email="<?php echo htmlspecialchars($persona['email'] ?? ''); ?>"
+                                        data-rol="<?php echo !empty($persona['idpaciente']) ? 'paciente' : 'funcionario'; ?>"
+                                        data-tel="<?php echo htmlspecialchars($persona['tel_contacto'] ?? ''); ?>"
+                                        data-nrohospital="<?php echo htmlspecialchars($persona['nro_hospital'] ?? ''); ?>"
+                                        data-cargo="<?php echo htmlspecialchars($persona['cargo'] ?? ''); ?>"
+                                        data-legajo="<?php echo htmlspecialchars($persona['legajo'] ?? ''); ?>"
+                                        data-contactofunc="<?php echo htmlspecialchars($persona['contacto_func'] ?? ''); ?>"
+                                    title="Editar Persona">
+                                    <i class="fa-solid fa-edit" style="color: #007bff; font-size: 1.2rem;"></i>
+                                    </button>
+                                    <button class="btn-action btn-delete-persona" 
+                                        data-id="<?php echo $persona['id_usuario']; ?>" title="Eliminar Persona">
                                         <i class="fa-solid fa-trash" style="color: #dc3545; font-size: 1.2rem;"></i>
                                     </button>
                                 </div>
@@ -260,7 +328,93 @@ $resultado_personas = mysqli_query($enlace, $consulta_personas);
         <i class="fa-solid fa-user-plus" style="font-size: 1.5rem; color: white;"></i>
     </button>
 
-    <!-- Register person modal -->
+    <!-- Edit person modal -->
+    <div class="modal-overlay" id="editPersonaModal">
+        <div class="modal-card modal-persona-card">
+            <h2 class="modal-title">Editar Persona</h2>
+            
+            <form id="formEditarPersona" action="personas.php" method="POST" class="form-persona" novalidate>
+                <input type="hidden" id="edit_persona_id" name="edit_persona_id" value="">
+                <input type="hidden" name="action" value="editar">
+
+                <div class="form-row-double">
+                    <div>
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" id="edit_nombre" name="edit_nombre" required class="input-persona">
+                    </div>
+                    <div>
+                        <label for="apellido">Apellido:</label>
+                        <input type="text" id="edit_apellido" name="edit_apellido" required class="input-persona">
+                    </div>
+                </div>
+
+                <div class="form-row-double">
+                    <div>
+                        <label for="cedula_identidad">Cédula de Identidad:</label>
+                        <input type="number" id="edit_cedula_identidad" name="edit_cedula_identidad" required class="input-persona">
+                    </div>
+                    <div>
+                        <label for="edit_tipo_rol">Es un:</label>
+                        <select id="edit_tipo_rol" name="edit_tipo_rol" required class="input-persona select-persona">
+                            <option value="" disabled selected>Seleccione...</option>
+                            <option value="paciente">Paciente</option>
+                            <option value="funcionario">Funcionario del Hospital</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Dynamic patient fields -->
+                <div id="edit_campos_paciente" class="campos-rol-dinamicos" style="display: none;">
+                    <div class="form-row-double">
+                        <div>
+                            <label for="tel_contacto">Teléfono de Contacto:</label>
+                            <input type="text" id="edit_tel_contacto" name="edit_tel_contacto" class="input-persona">
+                        </div>
+                        <div>
+                            <label for="nro_hospital">Nº de Hospital / Registro:</label>
+                            <input type="text" id="edit_nro_hospital" name="edit_nro_hospital" class="input-persona">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic employee fields -->
+                <div id="edit_campos_funcionario" class="campos-rol-dinamicos" style="display: none;">
+                    <p style="color:#d9534f; font-size:0.85rem; margin-bottom:10px;">* Los funcionarios requieren acceso web, asigne correo y clave.</p>
+                    <div class="form-row-double">
+                        <div>
+                            <label for="email">Correo Electrónico:</label>
+                            <input type="email" id="edit_email" name="edit_email" class="input-persona">
+                        </div>
+                        <div>
+                            <label for="pass">Contraseña (Vacio para no cambiar):</label>
+                            <input type="password" id="edit_pass" name="edit_pass" class="input-persona">
+                        </div>
+                    </div>
+                    <label for="cargo">Cargo / Función:</label>
+                    <select id="edit_cargo" name="edit_cargo" class="input-persona select-persona">
+                        <option value="Medico">Médico</option>
+                        <option value="Chofer">Chofer / Conductor</option>
+                        <option value="Enfermero">Enfermero/a</option>
+                        <option value="Admin">Administrador</option>
+                    </select>
+                    <div class="form-row-double">
+                        <div>
+                            <label for="legajo">Número de Legajo:</label>
+                            <input type="text" id="edit_legajo" name="edit_legajo" class="input-persona">
+                        </div>
+                        <div>
+                            <label for="contacto_func">Contacto Laboral:</label>
+                            <input type="text" id="edit_contacto_func" name="edit_contacto_func" class="input-persona">
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit-persona">Guardar Persona</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Register new -->
     <div class="modal-overlay" id="modalAltaPersona">
         <div class="modal-card modal-persona-card">
             <h2 class="modal-title">Registrar Nueva Persona</h2>
