@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 15-09-2026 a las 13:34:49
+-- Tiempo de generación: 07-10-2026 a las 17:25:20
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -137,7 +137,9 @@ CREATE TABLE `paciente` (
 --
 
 INSERT INTO `paciente` (`idpaciente`, `id_usuario`, `tel_contacto`, `nro_hospital`) VALUES
-(1, 16, '12312312312', '123123123123');
+(1, 16, '12312312312', '123123123123'),
+(2, 20, '099099099', '1'),
+(5, 19, '', '');
 
 -- --------------------------------------------------------
 
@@ -205,7 +207,10 @@ CREATE TABLE `usuario` (
 INSERT INTO `usuario` (`nombre`, `apellido`, `cedula_identidad`, `email`, `pass`, `id_usuario`) VALUES
 ('Ezequiel', 'Vazquez', 566373773, 'porqueelpansabemejorquelallave@gmail.com', '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 1),
 ('Amon', 'Gus', 2147483647, NULL, NULL, 16),
-('Ana', 'Sosa', 45556768, 'anasosa@gmail.com', '85467a30314f402f466c3d001344b17cb867cf873b685e8e54ae75bf9fb4faa9', 17);
+('Ana', 'Sosa', 45556768, 'anasosa@gmail.com', '85467a30314f402f466c3d001344b17cb867cf873b685e8e54ae75bf9fb4faa9', 17),
+('CANDELA', 'Echeveste Coria', 58090453, 'jsjsjsjjsjsjsjsjs@gmail.com', '1298b56cba5537667c592577e89fc42d33f9c4342084f93d2f6a47125748ad58', 18),
+('Hola', 'Chau', 612636123, NULL, '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 19),
+('Juan', 'B', 57570155, NULL, NULL, 20);
 
 --
 -- Índices para tablas volcadas
@@ -306,7 +311,7 @@ ALTER TABLE `clase`
 -- AUTO_INCREMENT de la tabla `documentacion`
 --
 ALTER TABLE `documentacion`
-  MODIFY `iddocumento` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `iddocumento` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `elemento`
@@ -324,13 +329,13 @@ ALTER TABLE `encuesta`
 -- AUTO_INCREMENT de la tabla `funcionario`
 --
 ALTER TABLE `funcionario`
-  MODIFY `idfuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idfuncionario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `paciente`
 --
 ALTER TABLE `paciente`
-  MODIFY `idpaciente` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `idpaciente` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `qr`
@@ -354,7 +359,7 @@ ALTER TABLE `traslado`
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Restricciones para tablas volcadas
