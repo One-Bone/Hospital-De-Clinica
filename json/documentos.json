@@ -1,0 +1,12 @@
+{
+  "en": {
+    "title": "Documents",
+    "description": "Documents available for the hospital.",
+    "documentos": "Documents"
+  },
+  "es": {
+    "title": "Documentos",
+    "description": "Documentos disponibles para el hospital.",
+    "documentos": "Documentos"
+  }
+}

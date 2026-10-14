@@ -1,0 +1,19 @@
+{
+  "es": {
+    "title": "Hospital de Clinica Montevideo",
+    "index": "Pagina Principal",
+    "configuracion": "Configuración",
+    "sobre-nosotros": "Sobre Nosotros",
+    "contacto": "Contacto",
+    "preferencias": "Preferencias"
+
+  },
+  "en": {
+      "title": "Montevideo Clinics Hospital",
+    "index": "Main Page",
+    "configuracion": "Settings",
+    "sobre-nosotros": "About Us",
+    "contacto": "Contact",
+    "preferencias": "Preferences"
+  }
+}

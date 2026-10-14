@@ -1,0 +1,26 @@
+{
+  "es": {
+    "title": "Contacto",
+    "description": "Contacta con nuestro equipo para consultar servicios o solicitar información.",
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "phone": "Teléfono",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "submit": "Enviar mensaje",
+    "success": "Gracias. Tu mensaje se ha enviado correctamente.",
+    "error": "No se pudo enviar el mensaje. Inténtalo de nuevo."
+  },
+  "en": {
+    "title": "Contact",
+    "description": "Contact our team to ask about services or request information.",
+    "name": "Name",
+    "email": "Email address",
+    "phone": "Phone number",
+    "subject": "Subject",
+    "message": "Message",
+    "submit": "Send message",
+    "success": "Thank you. Your message was sent successfully.",
+    "error": "The message could not be sent. Please try again."
+  }
+}
