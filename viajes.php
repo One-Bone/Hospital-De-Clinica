@@ -1,4 +1,14 @@
-<?php session_start(); ?>
+<?php 
+session_start(); 
+
+require_once 'php/config.php';
+
+if(!isset($_SESSION['id'])){
+    header("Location: php/login.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,19 +137,12 @@
 
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
-            <?php if (isset($_SESSION['id'])): ?>
                 <ul>
                     <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
                     <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
                     <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
                     <li class="MiniBtn"><a href="php/logout.php">Cerrar sesion</a></li>
                 </ul>
-            <?php else: ?>
-                <ul>
-                    <li class="MiniBtn"><a href="php/login.php">Iniciar Sesion</a></li>
-                    <li class="MiniBtn"><a href="register.html">Registrarse</a></li>
-                </ul>
-            <?php endif; ?>
         </div>
 
         <!-- Button Toggle -->
@@ -179,7 +182,7 @@
     </div>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
-    <script src="js/menu.js"></script>
-    <script src="js/viajes.js"></script>
+    <script src="js/menu.js?v=<?php echo time(); ?>"></script>
+    <script src="js/viajes.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

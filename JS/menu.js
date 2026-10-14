@@ -59,3 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
         dropdownLanguage.classList.remove('open');
     });
 });
+if (btnOpenPreferences && preferencesModal) {
+        btnOpenPreferences.addEventListener('click', (e) => {
+            e.preventDefault();
+            preferencesModal.classList.add('active');
+        });
+
+        preferencesModal.addEventListener('click', (e) => {
+            if (e.target === preferencesModal) {
+                preferencesModal.classList.remove('active');
+            }
+        });
+    };
+
+if (dropdownBtn && dropdownLanguage) {
+        dropdownBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownLanguage.classList.toggle('open');
+        });
+
+        dropdownLanguage.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownLanguage.classList.toggle('open');
+        });
+};

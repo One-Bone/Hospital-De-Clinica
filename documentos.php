@@ -105,7 +105,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
             <div class="user-profile">
                 <?php if (isset($_SESSION['id'])): ?>
                     <i class="fa-solid fa-circle-user avatar"></i>
-                    <b><a href="perfil.html" class="user-name"><span><?php echo htmlspecialchars($_SESSION['nombre'] . ' ' . ($_SESSION['apellido'] ?? '')); ?></span></a></b>
+                    <b><a class="user-name"><span><?php echo htmlspecialchars($_SESSION['nombre'] . ' ' . ($_SESSION['apellido'] ?? '')); ?></span></a></b>
                 <?php else: ?>
                     <a href="php/login.php"><span>Iniciar Sesion</span></a>
                 <?php endif; ?>
@@ -201,7 +201,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
             <ul>
                 <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
                 <li class="MiniBtn"><a href="#">Configuración</a></li>
-                <li id="preferencesItem" class="MiniBtn"><a href="#">Preferencias</a></li>
+                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
                 <li class="MiniBtn"><a href="php/logout.php">Cerrar sesión</a></li>
             </ul>
         </div>
@@ -209,6 +209,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         <button class="fab-btn" id="fabBtn">
             <i class="fa-solid fa-bars" id="fabIcon"></i>
         </button>
+    </div>
+
+    <!-- Preferences -->
+    <div class="modal-overlay" id="preferencesModal">
+        <div class="modal-card">
+            <h2 class="modal-title">Preferencias</h2>
+
+            <!-- Dark Switch -->
+            <div class="pref-row">
+                <span class="pref-label">Modo Oscuro</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="darkModeToggle">
+                    <span class="slider"></span>
+                </label>
+            </div>
+
+            <!-- Lenguaje Dropdown -->
+            <div class="pref-row">
+                <span class="pref-label">Idioma</span>
+                <div class="custom-dropdown" id="dropdownLanguage">
+                    <button class="dropdown-btn" id="dropdownBtn">Español</button>
+                    <div class="dropdown-content">
+                        <div class="dropdown-item active" data-lang="Español">Español</div>
+                        <div class="dropdown-item" data-lang="Ingles">Ingles</div>
+                        <div class="dropdown-item" data-lang="Frances">Frances</div>
+                        <div class="dropdown-item" data-lang="Portugues">Portugues</div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="js/menu.js?v=<?php echo time(); ?>"></script>

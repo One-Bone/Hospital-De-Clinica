@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // MODAL DE CREAR ENCUESTA
     const btnCargarEncuesta = document.getElementById('btnCargarEncuesta');
     const modalAltaEncuesta = document.getElementById('modalAltaEncuesta');
 
@@ -8,7 +7,6 @@ document.addEventListener('DOMContentLoaded', () => {
             modalAltaEncuesta.classList.add('active');
         });
 
-        // Cerrar al hacer clic fuera del modal
         modalAltaEncuesta.addEventListener('click', (e) => {
             if (e.target === modalAltaEncuesta) {
                 modalAltaEncuesta.classList.remove('active');
@@ -16,13 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ELIMINAR ENCUESTA
+    // ELIMINAR
     const deleteBtns = document.querySelectorAll('.btn-delete-encuesta');
     const deleteEncuestaModal = document.getElementById('deleteEncuestaModal');
     const btnCancelDeleteEncuesta = document.getElementById('btnCancelDeleteEncuesta');
     const deleteEncuestaIdInput = document.getElementById('delete_encuesta_id_input');
 
-    // Asignar el ID correcto al botón de basura que se clickeó
+    
     deleteBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             deleteEncuestaIdInput.value = btn.getAttribute('data-id');
