@@ -56,16 +56,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (respuesta.ok) {
                 // si el registro es exitoso
-                alert('¡Registro exitoso!');
+                alert(window.getSiteTranslation?.('registration_success') || '¡Registro exitoso!');
                 window.location.href = 'php/login.php'; // Redirige al login
             } else {
                 // si detecta un error en el registro
-                alert('Error al registrar. Por favor, intenta de nuevo.');
+                alert(window.getSiteTranslation?.('registration_error') || 'Error al registrar. Por favor, intenta de nuevo.');
             }
         } catch (error) {
             // Si cae el server tira error 
             console.error('Error de conexión:', error);
-            alert('Hubo un problema al conectar con el servidor.');
+            alert(window.getSiteTranslation?.('connection_error') || 'Hubo un problema al conectar con el servidor.');
         }
     });
 });

@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const dropdownItems = document.querySelectorAll('.dropdown-item');
 
     // Alternate
-    fabBtn.addEventListener('click', (e) => {
+    fabBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
         sidePopup.classList.toggle('active');
         fabBtn.classList.toggle('open');
@@ -26,20 +26,20 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Preferences
-    btnOpenPreferences.addEventListener('click', (e) => {
+    btnOpenPreferences?.addEventListener('click', (e) => {
         e.preventDefault();
         preferencesModal.classList.add('active');
     });
 
     // Click ofside close preferences
-    preferencesModal.addEventListener('click', (e) => {
+    preferencesModal?.addEventListener('click', (e) => {
         if (e.target === preferencesModal) {
             preferencesModal.classList.remove('active');
         }
     });
 
     // Dropdown Language
-    dropdownBtn.addEventListener('click', (e) => {
+    dropdownBtn?.addEventListener('click', (e) => {
         e.stopPropagation();
         dropdownLanguage.classList.toggle('open');
     });
@@ -49,37 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
         item.addEventListener('click', () => {
             dropdownItems.forEach(i => i.classList.remove('active'));
             item.classList.add('active');
-            dropdownBtn.innerText = item.dataset.lang;
+            if (window.setSiteLanguage) {
+                window.setSiteLanguage(item.dataset.lang);
+            } else if (dropdownBtn) {
+                dropdownBtn.innerText = item.dataset.lang === 'en' ? 'English' : 'Español';
+            }
             dropdownLanguage.classList.remove('open');
         });
     });
 
     // Dropdown close outside
     document.addEventListener('click', () => {
-        dropdownLanguage.classList.remove('open');
+        dropdownLanguage?.classList.remove('open');
     });
 });
-if (btnOpenPreferences && preferencesModal) {
-        btnOpenPreferences.addEventListener('click', (e) => {
-            e.preventDefault();
-            preferencesModal.classList.add('active');
-        });
-
-        preferencesModal.addEventListener('click', (e) => {
-            if (e.target === preferencesModal) {
-                preferencesModal.classList.remove('active');
-            }
-        });
-    };
-
-if (dropdownBtn && dropdownLanguage) {
-        dropdownBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownLanguage.classList.toggle('open');
-        });
-
-        dropdownLanguage.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownLanguage.classList.toggle('open');
-        });
-};

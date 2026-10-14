@@ -1,0 +1,28 @@
+{
+  "es": {
+    "page_title": "Hospital de Clínica Montevideo",
+    "language": "Idioma:",
+    "language_es": "Español",
+    "language_en": "English",
+    "login_title": "Inicio de sesión",
+    "identity_number": "Número de cédula:",
+    "password": "Contraseña:",
+    "remember_me": "Recuérdame",
+    "sign_in": "Iniciar sesión",
+    "no_account": "¿No tienes una cuenta?",
+    "register_here": "Regístrate aquí"
+  },
+  "en": {
+    "page_title": "Montevideo Clinics Hospital",
+    "language": "Language:",
+    "language_es": "Español",
+    "language_en": "English",
+    "login_title": "Sign In",
+    "identity_number": "National ID number:",
+    "password": "Password:",
+    "remember_me": "Remember me",
+    "sign_in": "Sign in",
+    "no_account": "Don't have an account?",
+    "register_here": "Register here"
+  }
+}

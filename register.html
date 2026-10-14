@@ -1,54 +1,60 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-i18n-file="json/register.json">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clínica Montevideo</title>
+    <title data-i18n="page_title">Hospital de Clínica Montevideo</title>
     <link rel="stylesheet" href="css/register-login.css">
 </head>
 <body>
     <div class="register">
-        <h1>Registro de usuario</h1>
+        <label for="languageSelect" data-i18n="language">Idioma:</label>
+        <select id="languageSelect" data-language-select>
+            <option value="es">Español</option>
+            <option value="en">English</option>
+        </select>
+        <h1 data-i18n="register_title">Registro de usuario</h1>
         <form id="registerForm" method="POST" action="php/procesar_registro.php">
 
-            <label for="username">Nombre:</label>
+            <label for="username" data-i18n="name">Nombre:</label>
             <input type="text" id="username" name="nombre" required><br><br>
 
-            <label for="lastname">Apellido:</label>
+            <label for="lastname" data-i18n="surname">Apellido:</label>
             <input type="text" id="lastname" name="apellido" required><br><br>
 
-            <label for="id">Número de cedula:</label>
+            <label for="id" data-i18n="identity_number">Número de cedula:</label>
             <input type="text" id="id" name="cedula" required><br><br>
 
-            <label for="email">Correo electrónico:</label>
+            <label for="email" data-i18n="email">Correo electrónico:</label>
             <input type="email" id="email" name="email" required><br><br>
 
-            <label for="password">Contraseña:</label>
+            <label for="password" data-i18n="password">Contraseña:</label>
             <input type="password" id="password" name="pass" required><br>
 
             <span id="password-error" style="color: red; font-size: 13px; display: none;">
-                La contraseña debe tener al menos 8 caracteres y contener un número o símbolo.
+                <span data-i18n="password_error">La contraseña debe tener al menos 8 caracteres y contener un número o símbolo.</span>
             </span><br>
 
-            <label for="conf-pass">Confirmar contraseña:</label>
+            <label for="conf-pass" data-i18n="confirm_password">Confirmar contraseña:</label>
             <input type="password" id="conf-pass" name="conf-pass" required><br>
             
             <span id="match-error" style="color: red; font-size: 13px; display: none;">
-                Las contraseñas no coinciden.
+                <span data-i18n="password_mismatch">Las contraseñas no coinciden.</span>
             </span><br><br>
 
-            <input type="submit" value="Registrarse"><br><br>
+            <input type="submit" value="Registrarse" data-i18n-value="register"><br><br>
 
-            <label for="register">¿Ya tienes una cuenta?</label>
-            <a href="php/login.php">Inicia sesión aquí</a>
+            <label for="register" data-i18n="already_account">¿Ya tienes una cuenta?</label>
+            <a href="php/login.php" data-i18n="sign_in_here">Inicia sesión aquí</a>
         </form>
     </div>
     <div class="Lateral-Menu">
-        <a href="index.php">Página principal</a>
-        <a href="index.php#sobre-nosotros">Sobre nosotros</a>
-        <a href="contacto.html">Contacto</a>
+        <a href="index.php" data-i18n="home">Página principal</a>
+        <a href="index.php#sobre-nosotros" data-i18n="about">Sobre nosotros</a>
+        <a href="contacto.html" data-i18n="contact">Contacto</a>
     </div>
     <!-- vinculacion del javascript-->
     <script src="js/register.js?v=6.0"></script>
+    <script src="js/idioma.js"></script>
 </body>
 </html>

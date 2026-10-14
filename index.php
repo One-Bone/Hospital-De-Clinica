@@ -1,10 +1,10 @@
 <?php session_start(); ?>
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" data-i18n-file="json/index.json">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clinica Montevideo</title>
+    <title data-i18n="page_title">Hospital de Clinica Montevideo</title>
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css?v=<?php echo time(); ?>" as="style">
     
@@ -26,7 +26,7 @@
                 <i class="fa-solid fa-circle-user avatar"></i>
                 <b><a class="user-name"><span><?php echo $_SESSION['nombre'] . ' ' . $_SESSION['apellido']; ?></span></a></b>
             <?php else: ?>
-                <a href="php/login.php"><span>Iniciar Sesion</span></a>
+                <a href="php/login.php"><span data-i18n="sign_in">Iniciar Sesion</span></a>
             <?php endif; ?>
         </div>
     </div>
@@ -34,13 +34,13 @@
     <!-- Menu -->
     <div class="menu" id="menu-index">
         <?php if (isset($_SESSION['id'])): ?>
-        <a href="index.php">Inicio</a>
-        <a href="documentos.php">Documentos</a>
-        <a href="personas.php">Personas</a>
-        <a href="encuestas.php">Encuestas</a>
-        <a href="viajes.php">Viajes</a>
+        <a href="index.php" data-i18n="home">Inicio</a>
+        <a href="documentos.php" data-i18n="documents">Documentos</a>
+        <a href="personas.php" data-i18n="people">Personas</a>
+        <a href="encuestas.php" data-i18n="surveys">Encuestas</a>
+        <a href="viajes.php" data-i18n="trips">Viajes</a>
         <?php else: ?>
-        <a href="index.php">Inicio</a>
+        <a href="index.php" data-i18n="home">Inicio</a>
         <?php endif; ?>
     </div>
     </header>
@@ -56,35 +56,35 @@
                             <div onclick="window.location.href='documentos.php'" class="service-card">
                                 <i class="fa-solid fa-file-alt"></i>
                             </div>
-                            <b>Documentos</b>
+                            <b data-i18n="documents">Documentos</b>
                         </div>
 
                         <div class="service-item">
                             <div onclick="window.location.href='personas.php'" class="service-card">
                                 <i class="fa-solid fa-user-friends"></i>
                             </div>
-                            <b>Personas</b>
+                            <b data-i18n="people">Personas</b>
                         </div>
 
                         <div class="service-item">
                             <div onclick="window.location.href='encuestas.php'" class="service-card">
                                 <i class="fa-solid fa-chart-bar"></i>
                             </div>
-                            <b>Encuestas</b>
+                            <b data-i18n="surveys">Encuestas</b>
                         </div>
 
                         <div class="service-item">
                             <div onclick="window.location.href='viajes.php'" class="service-card">
                                 <i class="fa-solid fa-ambulance"></i>
                             </div>
-                            <b>Viajes</b>
+                            <b data-i18n="trips">Viajes</b>
                         </div>
                     </div>
                 </section>
             <?php else: ?>
                 <section class="login-prompt">
-                    <p>Inicia sesión para acceder a los servicios del Hospital de Clínica Montevideo.</p>
-                    <a href="php/login.php" class="login-button">Iniciar Sesión</a>
+                    <p data-i18n="login_prompt">Inicia sesión para acceder a los servicios del Hospital de Clínica Montevideo.</p>
+                    <a href="php/login.php" class="login-button" data-i18n="login_button">Iniciar Sesión</a>
                 </section>
             <?php endif; ?>
         </div>
@@ -100,15 +100,15 @@
             <!-- Session -->
             <?php if (isset($_SESSION['id'])): ?>
                 <ul>
-                    <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
-                    <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
-                    <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
-                    <li class="MiniBtn"><a href="php/logout.php">Cerrar sesion</a></li>
+                    <li class="MiniBtn"><a href="#" data-i18n="edit_profile">Editar Perfil</a></li>
+                    <li class="MiniBtn"><a href="#configuracion.html" data-i18n="settings">Configuracion</a></li>
+                    <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
+                    <li class="MiniBtn"><a href="php/logout.php" data-i18n="sign_out">Cerrar sesion</a></li>
                 </ul>
             <?php else: ?>
                 <ul>
-                    <li class="MiniBtn"><a href="php/login.php">Iniciar Sesion</a></li>
-                    <li class="MiniBtn"><a href="register.html">Registrarse</a></li>
+                    <li class="MiniBtn"><a href="php/login.php" data-i18n="sign_in">Iniciar Sesion</a></li>
+                    <li class="MiniBtn"><a href="register.html" data-i18n="register">Registrarse</a></li>
                 </ul>
             <?php endif; ?>
         </div>
@@ -122,11 +122,11 @@
     <!-- Preferences -->
     <div class="modal-overlay" id="preferencesModal">
         <div class="modal-card">
-            <h2 class="modal-title">Preferencias</h2>
+            <h2 class="modal-title" data-i18n="preferences">Preferencias</h2>
 
             <!-- Dark Switch -->
             <div class="pref-row">
-                <span class="pref-label">Modo Oscuro</span>
+                <span class="pref-label" data-i18n="dark_mode">Modo Oscuro</span>
                 <label class="toggle-switch">
                     <input type="checkbox" id="darkModeToggle">
                     <span class="slider"></span>
@@ -135,19 +135,18 @@
 
             <!-- Lenguaje Dropdown -->
             <div class="pref-row">
-                <span class="pref-label">Idioma</span>
+                <span class="pref-label" data-i18n="language">Idioma</span>
                 <div class="custom-dropdown" id="dropdownLanguage">
                     <button class="dropdown-btn" id="dropdownBtn">Español</button>
                     <div class="dropdown-content">
-                        <div class="dropdown-item active" data-lang="Español">Español</div>
-                        <div class="dropdown-item" data-lang="Ingles">Ingles</div>
-                        <div class="dropdown-item" data-lang="Frances">Frances</div>
-                        <div class="dropdown-item" data-lang="Portugues">Portugues</div>
+                        <div class="dropdown-item active" data-lang="es" data-i18n="language_es">Español</div>
+                        <div class="dropdown-item" data-lang="en" data-i18n="language_en">English</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="js/menu.js"></script>
+    <script src="js/idioma.js"></script>
 </body>
 </html>

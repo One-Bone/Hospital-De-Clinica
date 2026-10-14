@@ -1,0 +1,42 @@
+{
+  "es": {
+    "page_title": "Hospital de Clínica Montevideo",
+    "sign_in": "Iniciar sesión",
+    "home": "Inicio",
+    "documents": "Documentos",
+    "people": "Personas",
+    "surveys": "Encuestas",
+    "trips": "Viajes",
+    "login_prompt": "Inicia sesión para acceder a los servicios del Hospital de Clínica Montevideo.",
+    "login_button": "Iniciar sesión",
+    "edit_profile": "Editar Perfil",
+    "settings": "Configuración",
+    "preferences": "Preferencias",
+    "sign_out": "Cerrar sesión",
+    "register": "Registrarse",
+    "dark_mode": "Modo Oscuro",
+    "language": "Idioma",
+    "language_es": "Español",
+    "language_en": "English"
+  },
+  "en": {
+    "page_title": "Montevideo Clinics Hospital",
+    "sign_in": "Sign in",
+    "home": "Home",
+    "documents": "Documents",
+    "people": "People",
+    "surveys": "Surveys",
+    "trips": "Trips",
+    "login_prompt": "Sign in to access the services of Montevideo Clinical Hospital.",
+    "login_button": "Sign in",
+    "edit_profile": "Edit Profile",
+    "settings": "Settings",
+    "preferences": "Preferences",
+    "sign_out": "Sign out",
+    "register": "Register",
+    "dark_mode": "Dark Mode",
+    "language": "Language",
+    "language_es": "Español",
+    "language_en": "English"
+  }
+}

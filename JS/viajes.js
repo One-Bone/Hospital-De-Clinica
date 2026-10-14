@@ -1,6 +1,10 @@
 const montevideoCords = [-34.9011, -56.1645];
 const hospitalClinicasCoords = [-34.8883, -56.1541];
 const emergenciaOrigenCoords = [-34.9058, -56.1913];
+const popupText = (key, fallback) => {
+    const translation = window.getSiteTranslation?.(key);
+    return translation && translation !== key ? translation : fallback;
+};
 
 // Montevideo Inicio
 const map = L.map('map', {
@@ -21,7 +25,7 @@ const hospitalIcon = L.divIcon({
     });
 
 // Marker Hospital
-L.marker(hospitalClinicasCoords, { icon: hospitalIcon })
+const hospitalMarker = L.marker(hospitalClinicasCoords, { icon: hospitalIcon })
         .addTo(map)
         .bindPopup('<b>Hospital de Clínicas</b><br>Montevideo, Uruguay')
         .openPopup();
@@ -56,6 +60,16 @@ const routingControl = L.Routing.control({
 // Simulate Real-Time
 let ambulanceMarker = null;
 let animationInterval = null;
+let ambulancePopupKey = null;
+
+window.addEventListener('site-language-changed', () => {
+    hospitalMarker.setPopupContent(`<b>Hospital de Clínicas</b><br>${popupText('hospital_location', 'Montevideo, Uruguay')}`);
+    if (ambulanceMarker && ambulancePopupKey) {
+        ambulanceMarker.setPopupContent(ambulancePopupKey === 'ambulance_arrived'
+            ? `<b>${popupText('ambulance_arrived', 'Ambulancia ha llegado al destino')}</b>`
+            : `<b>${popupText('ambulance_in_transit', 'Ambulancia en tránsito')}</b><br>${popupText('transport_status', 'Estado: En traslado')}`);
+    }
+});
 
 document.getElementById('ambulanceMap').addEventListener('click', () => {
     if (animationInterval) clearInterval(animationInterval);
@@ -69,7 +83,8 @@ document.getElementById('ambulanceMap').addEventListener('click', () => {
         if (ambulanceMarker) map.removeLayer(ambulanceMarker);
 
         ambulanceMarker = L.marker([coordinates[0].lat, coordinates[0].lng], { icon: ambulanceIcon }).addTo(map);
-        ambulanceMarker.bindPopup('<b>Ambulancia en tránsito</b><br>Estado: En traslado').openPopup();
+        ambulancePopupKey = 'ambulance_in_transit';
+        ambulanceMarker.bindPopup(`<b>${popupText('ambulance_in_transit', 'Ambulancia en tránsito')}</b><br>${popupText('transport_status', 'Estado: En traslado')}`).openPopup();
 
         // Ambulance move across
         animationInterval = setInterval(() => {
@@ -80,7 +95,8 @@ document.getElementById('ambulanceMap').addEventListener('click', () => {
                 map.panTo(nextLatLng);
             } else{
                 clearInterval(animationInterval);
-                ambulanceMarker.bindPopup('<b>Ambulancia ha llegado al destino</b>').openPopup();
+                ambulancePopupKey = 'ambulance_arrived';
+                ambulanceMarker.bindPopup(`<b>${popupText('ambulance_arrived', 'Ambulancia ha llegado al destino')}</b>`).openPopup();
             }
         }, 300);
     });

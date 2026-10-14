@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es" data-i18n-file="json/perfil.json">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hospital de Clinica Montevideo - Perfil</title>
+    <title data-i18n="page_title">Hospital de Clinica Montevideo - Perfil</title>
     <link rel="preload" href="css/style.css" as="style">
     <link rel="stylesheet" href="css/style.css" as="style">
     <link rel="preload" href="css/perfil.css" as="style">
@@ -17,20 +17,20 @@
                 Hospital de Clinica<br>Montevideo
             </div>
                 <div class="buscador" id="buscador-index">
-                <input type="text" placeholder="Buscar...">
+                <input type="text" placeholder="Buscar..." data-i18n-placeholder="search">
             </div>
             <div class="user-profile">
                 <i class="fa-solid fa-circle-user avatar"></i>
-                <a href="login.php"><span>Iniciar Sesion</span></a>
+                <a href="login.php"><span data-i18n="sign_in">Iniciar Sesion</span></a>
             </div>
         </div>
 
         <!-- Menu -->
         <div class="menu" id="menu-index">
-            <a href="index.php">Inicio</i></a>
-            <a href="documentos.php">Historial</a>
-            <a href="perfil.html">Perfiil</a>
-            <a href="viajes.php">Viajes</a>
+            <a href="index.php" data-i18n="home">Inicio</a>
+            <a href="documentos.php" data-i18n="history">Historial</a>
+            <a href="perfil.html" data-i18n="profile">Perfil</a>
+            <a href="viajes.php" data-i18n="trips">Viajes</a>
         </div>
     </header>
 
@@ -39,7 +39,7 @@
 
         <!-- Content perfil -->
         <div class="main-content" id="main-content-perfil">
-            <h1 class="titulo-perfil">Perfil</h1>
+            <h1 class="titulo-perfil" data-i18n="profile">Perfil</h1>
             
             <!-- Icon -->
             <div class="perfil-flex-container">
@@ -51,15 +51,15 @@
 
                 <!-- Profile Info -->
                 <div class="perfil-datos">
-                    <h2 class="nombre-usuario">Name Placeholder</h2>
-                    <p><strong>Edad:</strong> 99</p>
-                    <p><strong>Cedula:</strong> 56236231</p>
-                    <p><strong>Telefono:</strong> 098 123 123</p>
+                    <h2 class="nombre-usuario" data-i18n="profile_name">Name Placeholder</h2>
+                    <p><strong data-i18n="age">Edad:</strong> 99</p>
+                    <p><strong data-i18n="identity_number">Cedula:</strong> 56236231</p>
+                    <p><strong data-i18n="phone">Telefono:</strong> 098 123 123</p>
                     
                     <!-- Links -->
                     <div class="perfil-enlaces">
-                        <a href="#">Editar perfil</a>
-                        <a href="#">Reestablecer Contraseña</a>
+                        <a href="#" data-i18n="edit_profile_link">Editar perfil</a>
+                        <a href="#" data-i18n="reset_password">Reestablecer Contraseña</a>
                     </div>
                 </div>
             </div>
@@ -73,10 +73,10 @@
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
             <ul>
-                <li class="MiniBtn"><a href="#">Editar Perfil</a></li>
-                <li class="MiniBtn"><a href="#configuracion.html">Configuracion</a></li>
-                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences">Preferencias</a></li>
-                <li class="MiniBtn"><a href="#">Cerrar sesion</a></li>
+                <li class="MiniBtn"><a href="#" data-i18n="edit_profile">Editar Perfil</a></li>
+                <li class="MiniBtn"><a href="#configuracion.html" data-i18n="settings">Configuracion</a></li>
+                <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
+                <li class="MiniBtn"><a href="#" data-i18n="sign_out">Cerrar sesion</a></li>
             </ul>
         </div>
 
@@ -89,11 +89,11 @@
     <!-- Preferences -->
     <div class="modal-overlay" id="preferencesModal">
         <div class="modal-card">
-            <h2 class="modal-title">Preferencias</h2>
+            <h2 class="modal-title" data-i18n="preferences">Preferencias</h2>
 
             <!-- Dark Switch -->
             <div class="pref-row">
-                <span class="pref-label">Modo Oscuro</span>
+                <span class="pref-label" data-i18n="dark_mode">Modo Oscuro</span>
                 <label class="toggle-switch">
                     <input type="checkbox" id="darkModeToggle">
                     <span class="slider"></span>
@@ -102,19 +102,18 @@
 
             <!-- Lenguaje Dropdown -->
             <div class="pref-row">
-                <span class="pref-label">Idioma</span>
+                <span class="pref-label" data-i18n="language">Idioma</span>
                 <div class="custom-dropdown" id="dropdownLanguage">
                     <button class="dropdown-btn" id="dropdownBtn">Español</button>
                     <div class="dropdown-content">
-                        <div class="dropdown-item active" data-lang="Español">Español</div>
-                        <div class="dropdown-item" data-lang="Ingles">Ingles</div>
-                        <div class="dropdown-item" data-lang="Frances">Frances</div>
-                        <div class="dropdown-item" data-lang="Portugues">Portugues</div>
+                        <div class="dropdown-item active" data-lang="es" data-i18n="language_es">Español</div>
+                        <div class="dropdown-item" data-lang="en" data-i18n="language_en">English</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script src="js/menu.js"></script>
+    <script src="js/idioma.js"></script>
 </body>
 </html>
