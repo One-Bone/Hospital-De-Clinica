@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title">Hospital de Clinica Montevideo</title>
+
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css?v=<?php echo time(); ?>" as="style">
     
@@ -16,10 +17,7 @@
     <div class="header-top">
         <div class="logo" id="logo-index">
         Hospital de Clinica <br> Montevideo
-        </div>
-        <!-- <div class="buscador" id="buscador-index"> -->
-            <!-- <input type="text" placeholder="Buscar..."> -->
-        <!-- </div> -->
+    </div>
         <div class="user-profile">
             <!-- Session -->
             <?php if (isset($_SESSION['id'])): ?>
@@ -109,6 +107,7 @@
                 <ul>
                     <li class="MiniBtn"><a href="php/login.php" data-i18n="sign_in">Iniciar Sesion</a></li>
                     <li class="MiniBtn"><a href="register.html" data-i18n="register">Registrarse</a></li>
+                    <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
                 </ul>
             <?php endif; ?>
         </div>

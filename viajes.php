@@ -137,6 +137,7 @@ if(!isset($_SESSION['id'])){
 
         <!-- Popup Menu -->
         <div class="side-popup" id="sidePopup">
+            <?php if (isset($_SESSION['id'])): ?>
                 <ul>
                     <li class="MiniBtn"><a href="#" data-i18n="edit_profile">Editar Perfil</a></li>
                     <li class="MiniBtn"><a href="#configuracion.html" data-i18n="settings">Configuracion</a></li>
