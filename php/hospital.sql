@@ -194,10 +194,11 @@ CREATE TABLE `traslado` (
 CREATE TABLE `usuario` (
   `nombre` varchar(50) NOT NULL,
   `apellido` varchar(50) NOT NULL,
-  `cedula_identidad` int(11) NOT NULL,
+  `cedula_identidad` varchar(8) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,
-  `id_usuario` int(11) NOT NULL
+  `id_usuario` int(11) NOT NULL,
+  CONSTRAINT `chk_usuario_cedula_formato` CHECK (char_length(`cedula_identidad`) = 8 AND `cedula_identidad` REGEXP '^[0-9]{8}$')
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -205,12 +206,12 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`nombre`, `apellido`, `cedula_identidad`, `email`, `pass`, `id_usuario`) VALUES
-('Ezequiel', 'Vazquez', 566373773, 'porqueelpansabemejorquelallave@gmail.com', '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 1),
-('Amon', 'Gus', 2147483647, NULL, NULL, 16),
-('Ana', 'Sosa', 45556768, 'anasosa@gmail.com', '85467a30314f402f466c3d001344b17cb867cf873b685e8e54ae75bf9fb4faa9', 17),
-('CANDELA', 'Echeveste Coria', 58090453, 'jsjsjsjjsjsjsjsjs@gmail.com', '1298b56cba5537667c592577e89fc42d33f9c4342084f93d2f6a47125748ad58', 18),
-('Hola', 'Chau', 612636123, NULL, '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 19),
-('Juan', 'B', 57570155, NULL, NULL, 20);
+('Ezequiel', 'Vazquez', '52817436', 'porqueelpansabemejorquelallave@gmail.com', '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 1),
+('Amon', 'Gus', '39264175', NULL, NULL, 16),
+('Ana', 'Sosa', '45556768', 'anasosa@gmail.com', '85467a30314f402f466c3d001344b17cb867cf873b685e8e54ae75bf9fb4faa9', 17),
+('CANDELA', 'Echeveste Coria', '58090453', 'jsjsjsjjsjsjsjsjs@gmail.com', '1298b56cba5537667c592577e89fc42d33f9c4342084f93d2f6a47125748ad58', 18),
+('Hola', 'Chau', '67428519', NULL, '9133516e8d7fad9bd014903e0d1acc47d8ba73b83a261c44134562a16c314017', 19),
+('Juan', 'B', '57570155', NULL, NULL, 20);
 
 --
 -- Índices para tablas volcadas

@@ -7,23 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const matchError = document.getElementById('match-error');
 
     form.addEventListener('submit', async function(event) {
-        //detenemos el envio default 
-        event.preventDefault(); 
-        
-        let isValid = true;
-        
-        // al menos 8 digitos y un numero o simbolo
-        const passwordRegex = /^(?=.*[\d\W_]).{8,}$/;
+        event.preventDefault();
 
-        // validamos la seguridad de las contrseñas
-        if (!passwordRegex.test(password.value)) {
+        let isValid = true;
+
+        if (password.value.length < 8 || password.value.length > 128 || !/(?=.*[\d\W_])/.test(password.value)) {
             passwordError.style.display = 'block';
             isValid = false;
         } else {
             passwordError.style.display = 'none';
         }
 
-        // validamos si las contraseñas son iguales
         if (password.value !== confPass.value) {
             matchError.style.display = 'block';
             isValid = false;
@@ -31,39 +25,27 @@ document.addEventListener('DOMContentLoaded', () => {
             matchError.style.display = 'none';
         }
 
-        // se canela aca si hay errores
         if (!isValid) {
             return;
         }
 
-        // --- envio de datos al backend
-
-        // Usamos FormData directo (sin convertir a JSON), porque PHP
-        // llena $_POST a partir de este formato, no de JSON crudo.
         const formData = new FormData(form);
 
         try {
-
             const backendURL = 'php/procesar_registro.php';
 
             const respuesta = await fetch(backendURL, {
                 method: 'POST',
                 body: formData
-                // No seteamos 'Content-Type' a mano: el navegador arma
-                // automaticamente el header correcto (multipart/form-data)
-                // junto con el boundary que necesita PHP para leerlo bien.
             });
 
             if (respuesta.ok) {
-                // si el registro es exitoso
                 alert(window.getSiteTranslation?.('registration_success') || '¡Registro exitoso!');
-                window.location.href = 'php/login.php'; // Redirige al login
+                window.location.href = 'php/login.php';
             } else {
-                // si detecta un error en el registro
                 alert(window.getSiteTranslation?.('registration_error') || 'Error al registrar. Por favor, intenta de nuevo.');
             }
         } catch (error) {
-            // Si cae el server tira error 
             console.error('Error de conexión:', error);
             alert(window.getSiteTranslation?.('connection_error') || 'Hubo un problema al conectar con el servidor.');
         }

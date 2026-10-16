@@ -17,26 +17,26 @@
         <form id="registerForm" method="POST" action="php/procesar_registro.php">
 
             <label for="username" data-i18n="name">Nombre:</label>
-            <input type="text" id="username" name="nombre" required><br><br>
+            <input type="text" id="username" name="nombre" maxlength="50" autocomplete="given-name" required><br><br>
 
             <label for="lastname" data-i18n="surname">Apellido:</label>
-            <input type="text" id="lastname" name="apellido" required><br><br>
+            <input type="text" id="lastname" name="apellido" maxlength="50" autocomplete="family-name" required><br><br>
 
             <label for="id" data-i18n="identity_number">Número de cedula:</label>
-            <input type="text" id="id" name="cedula" required><br><br>
+            <input type="text" id="id" name="cedula" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="username" required><br><br>
 
             <label for="email" data-i18n="email">Correo electrónico:</label>
-            <input type="email" id="email" name="email" required><br><br>
+            <input type="email" id="email" name="email" maxlength="100" autocomplete="email" required><br><br>
 
             <label for="password" data-i18n="password">Contraseña:</label>
-            <input type="password" id="password" name="pass" required><br>
+            <input type="password" id="password" name="pass" minlength="8" maxlength="128" autocomplete="new-password" required><br>
 
             <span id="password-error" style="color: red; font-size: 13px; display: none;">
                 <span data-i18n="password_error">La contraseña debe tener al menos 8 caracteres y contener un número o símbolo.</span>
             </span><br>
 
             <label for="conf-pass" data-i18n="confirm_password">Confirmar contraseña:</label>
-            <input type="password" id="conf-pass" name="conf-pass" required><br>
+            <input type="password" id="conf-pass" name="conf-pass" minlength="8" maxlength="128" autocomplete="new-password" required><br>
             
             <span id="match-error" style="color: red; font-size: 13px; display: none;">
                 <span data-i18n="password_mismatch">Las contraseñas no coinciden.</span>
@@ -54,7 +54,7 @@
         <a href="contacto.html" data-i18n="contact">Contacto</a>
     </div>
     <!-- vinculacion del javascript-->
-    <script src="js/register.js?v=6.0"></script>
+    <script src="JS/register.js?v=7.0"></script>
     <script src="js/idioma.js"></script>
 </body>
 </html>

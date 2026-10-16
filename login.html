@@ -14,12 +14,12 @@
         </select>
         <h1 data-i18n="login_title">Inicio de sesión</h1>
 
-        <form id="loginForm" method="POST" action="index.php">
+        <form id="loginForm" method="POST" action="php/login.php">
             <label for="id" data-i18n="identity_number">Número de cédula:</label>
-            <input type="text" id="id" name="id" required><br><br>
+            <input type="text" id="id" name="id" inputmode="numeric" pattern="[0-9]{8}" maxlength="8" autocomplete="username" required><br><br>
 
             <label for="password" data-i18n="password">Contraseña:</label>
-            <input type="password" id="password" name="password" required><br><br>
+            <input type="password" id="password" name="password" maxlength="128" autocomplete="current-password" required><br><br>
 
             <input type="checkbox" id="remember" name="remember">
             <label for="remember" data-i18n="remember_me">Recuérdame</label><br><br>
