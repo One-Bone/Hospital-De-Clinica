@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 07-10-2026 a las 17:25:20
+-- Tiempo de generación: 19-10-2026 a las 14:17:53
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.0.30
+-- Versión de PHP: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -188,6 +188,23 @@ CREATE TABLE `traslado` (
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ubicacion`
+--
+
+CREATE TABLE `ubicacion` (
+  `idubicacion` int(11) NOT NULL,
+  `idambulancia` int(6) NOT NULL,
+  `idtraslado` int(10) DEFAULT NULL,
+  `latitud` decimal(10,7) NOT NULL,
+  `longitud` decimal(10,7) NOT NULL,
+  `precision_m` float DEFAULT NULL,
+  `velocidad_ms` float DEFAULT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `usuario`
 --
 
@@ -197,9 +214,8 @@ CREATE TABLE `usuario` (
   `cedula_identidad` varchar(8) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `pass` varchar(255) DEFAULT NULL,
-  `id_usuario` int(11) NOT NULL,
-  CONSTRAINT `chk_usuario_cedula_formato` CHECK (char_length(`cedula_identidad`) = 8 AND `cedula_identidad` REGEXP '^[0-9]{8}$')
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  `id_usuario` int(11) NOT NULL
+) ;
 
 --
 -- Volcado de datos para la tabla `usuario`
@@ -286,6 +302,13 @@ ALTER TABLE `traslado`
   ADD KEY `fk_traslado_ambulancia` (`idambulancia`);
 
 --
+-- Indices de la tabla `ubicacion`
+--
+ALTER TABLE `ubicacion`
+  ADD PRIMARY KEY (`idubicacion`),
+  ADD KEY `idx_ambulancia_fecha` (`idambulancia`,`fecha`);
+
+--
 -- Indices de la tabla `usuario`
 --
 ALTER TABLE `usuario`
@@ -357,10 +380,16 @@ ALTER TABLE `traslado`
   MODIFY `idtraslado` int(10) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT de la tabla `ubicacion`
+--
+ALTER TABLE `ubicacion`
+  MODIFY `idubicacion` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas

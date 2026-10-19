@@ -101,3 +101,65 @@ document.getElementById('ambulanceMap').addEventListener('click', () => {
         }, 300);
     });
 });
+
+// ===================================================================
+// Seguimiento en vivo (lo que envían los conductores desde conductor.php)
+// ===================================================================
+const INTERVALO_CONSULTA_MS = 5000;   // cada cuánto se actualiza el mapa
+const SENIAL_PERDIDA_SEG = 30;        // si el último punto es más viejo que esto, se marca como "sin señal"
+
+const liveAmbulances = {}; // id -> { marker, polyline }
+
+const liveRouteStyle = { color: '#3a4dbf', weight: 4, opacity: 0.8 };
+
+function liveAmbulancePopup(a) {
+    const velocidad = a.velocidad !== null ? `<br>${Math.round(a.velocidad * 3.6)} km/h` : '';
+    return `<b>${a.matricula}</b>`
+        + `<br>${popupText('last_signal', 'Última señal')}: ${a.segundos} s`
+        + velocidad;
+}
+
+async function actualizarAmbulanciasEnVivo() {
+    try {
+        const resp = await fetch('php/obtener_ubicaciones.php', { cache: 'no-store' });
+        if (!resp.ok) return;
+        const data = await resp.json();
+        if (!data.ok) return;
+
+        const idsActuales = new Set();
+
+        data.ambulancias.forEach(a => {
+            idsActuales.add(a.id);
+            const pos = [a.lat, a.lng];
+            const sinSenial = a.segundos > SENIAL_PERDIDA_SEG;
+
+            if (!liveAmbulances[a.id]) {
+                liveAmbulances[a.id] = {
+                    marker: L.marker(pos, { icon: ambulanceIcon }).addTo(map),
+                    polyline: L.polyline(a.ruta, liveRouteStyle).addTo(map)
+                };
+                liveAmbulances[a.id].marker.bindPopup(liveAmbulancePopup(a));
+            } else {
+                liveAmbulances[a.id].marker.setLatLng(pos);
+                liveAmbulances[a.id].marker.setPopupContent(liveAmbulancePopup(a));
+                liveAmbulances[a.id].polyline.setLatLngs(a.ruta);
+            }
+
+            liveAmbulances[a.id].marker.setOpacity(sinSenial ? 0.45 : 1);
+        });
+
+        // Quitar del mapa las ambulancias que dejaron de enviar
+        Object.keys(liveAmbulances).forEach(id => {
+            if (!idsActuales.has(Number(id))) {
+                map.removeLayer(liveAmbulances[id].marker);
+                map.removeLayer(liveAmbulances[id].polyline);
+                delete liveAmbulances[id];
+            }
+        });
+    } catch (e) {
+        console.error('No se pudo actualizar el seguimiento:', e);
+    }
+}
+
+actualizarAmbulanciasEnVivo();
+setInterval(actualizarAmbulanciasEnVivo, INTERVALO_CONSULTA_MS);
