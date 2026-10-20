@@ -22,9 +22,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['iniciar_sesion'])) {
         $error_login = "Cédula o contraseña incorrecta.";
     } else {
         $consulta = "SELECT id_usuario, cedula_identidad, nombre, apellido
-                     FROM usuario
-                     WHERE cedula_identidad = ?
-                     AND pass = SHA2(?, 256)";
+                    FROM usuario
+                    WHERE cedula_identidad = ?
+                    AND pass = SHA2(?, 256)";
         $stmt = mysqli_prepare($enlace, $consulta);
         mysqli_stmt_bind_param($stmt, "ss", $id_ingresado, $password_ingresada);
         mysqli_stmt_execute($stmt);
