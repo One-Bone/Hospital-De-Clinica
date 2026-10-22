@@ -85,3 +85,44 @@
 .perfil-enlaces a:hover {
     text-decoration: underline;
 }
+
+@media (max-width: 768px) {
+    #main-content-perfil {
+        width: calc(100% - 2rem);
+    }
+
+    .perfil-flex-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        padding-left: 0;
+    }
+
+    .perfil-datos {
+        max-width: 100%;
+    }
+
+    .perfil-datos h2.nombre-usuario {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content-perfil {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+    }
+
+    .avatar-placeholder {
+        width: 160px;
+        height: 160px;
+    }
+
+    .avatar-placeholder i {
+        font-size: 6rem;
+    }
+
+    .perfil-datos p {
+        font-size: 1.1rem;
+    }
+}

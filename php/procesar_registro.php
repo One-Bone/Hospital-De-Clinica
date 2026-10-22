@@ -1,6 +1,6 @@
 <?php
 
-require_once 'conexion.php'; // Nota: Si este archivo está dentro de una carpeta (ej. php/ o views/), usa: require_once '../conexion.php';
+require_once 'php/conexion.php'; 
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     http_response_code(405);
@@ -42,7 +42,7 @@ if (
 }
 
 $insertarDatos = "INSERT INTO usuario (nombre, apellido, cedula_identidad, email, pass)
-                VALUES (?, ?, ?, ?, SHA2(?, 256))";
+                  VALUES (?, ?, ?, ?, SHA2(?, 256))";
 $stmt = mysqli_prepare($enlace, $insertarDatos);
 mysqli_stmt_bind_param($stmt, "sssss", $nombre, $apellido, $cedula, $email, $pass_ingresada);
 

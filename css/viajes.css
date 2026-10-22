@@ -207,3 +207,66 @@
 .btn-submit-traslado:hover {
     background-color: var(--pressed-primary-color);
 }
+
+@media (max-width: 768px) {
+    .modal-traslado {
+        width: calc(100% - 2rem);
+        padding: 2rem;
+    }
+
+    .form-row {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .form-input {
+        max-width: 100%;
+    }
+
+    .leaflet-routing-container {
+        max-width: calc(100vw - 2rem);
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-traslado {
+        width: calc(100% - 1rem);
+        max-height: calc(100vh - 1rem);
+        padding: 1.25rem;
+    }
+
+    .modal-title-traslado {
+        font-size: 1.6rem;
+    }
+
+    .form-row {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .form-input,
+    .btn-submit-traslado {
+        width: 100%;
+    }
+
+    .floating-ambulance {
+        left: 15px;
+        bottom: 95px;
+    }
+
+    .ambulance-btn {
+        padding: 0 16px;
+        font-size: 0.9rem;
+    }
+
+    .zoom-controls {
+        right: 15px;
+        bottom: 15px;
+        gap: 6px;
+    }
+
+    .zoom-btn {
+        width: 45px;
+        height: 45px;
+    }
+}

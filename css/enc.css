@@ -168,3 +168,34 @@
 .btn-submit-carga:hover {
     background-color: var(--primary-color);
 }
+
+@media (max-width: 768px) {
+    #main-content-historial {
+        width: calc(100% - 2rem);
+    }
+
+    .historial-card-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content-historial {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+    }
+
+    .titulo-historial {
+        font-size: 1.7rem;
+    }
+
+    .links-container {
+        flex-direction: column;
+    }
+
+    .crg-btn {
+        right: 15px;
+        bottom: 15px;
+    }
+}

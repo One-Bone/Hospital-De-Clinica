@@ -259,3 +259,43 @@
 .select-box select:focus {
     border-color: var(--secondary-color);
 }
+
+@media (max-width: 768px) {
+    #main-content-personas {
+        width: calc(100% - 2rem);
+    }
+
+    .form-row-double {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 480px) {
+    #main-content-personas {
+        width: calc(100% - 1rem);
+        padding: 1rem;
+    }
+
+    .titulo-personas {
+        font-size: 1.7rem;
+    }
+
+    .persona-card-header {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .side-left-persona,
+    .side-right-persona {
+        flex-wrap: wrap;
+    }
+
+    .modal-persona-card {
+        width: calc(100% - 2rem);
+    }
+
+    .crg-btn-persona {
+        right: 15px;
+        bottom: 15px;
+    }
+}

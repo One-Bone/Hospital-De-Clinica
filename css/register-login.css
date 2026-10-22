@@ -178,3 +178,23 @@ a:hover {
   color: #ffffff;
   text-decoration: underline;
 }
+
+@media (max-width: 480px) {
+  body {
+    padding: 24px 12px;
+  }
+
+  .register, .Login {
+    padding: 28px 20px;
+    border-radius: 20px;
+  }
+
+  .register h1, .Login h1 {
+    font-size: 26px;
+  }
+
+  .Lateral-Menu {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+}
