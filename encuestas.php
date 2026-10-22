@@ -9,29 +9,82 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
+// Crear
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'crear') {
     $titulo = trim($_POST['titulo']);
     $enlace_form = trim($_POST['enlace_form']);
     $enlace_resp = trim($_POST['enlace_resp']);
     
+
     $sql_insert = "INSERT INTO encuesta (titulo_encuesta, enlace_formulario, enlace_respuestas) VALUES (?, ?, ?)";
     $stmt = mysqli_prepare($enlace, $sql_insert);
     mysqli_stmt_bind_param($stmt, "sss", $titulo, $enlace_form, $enlace_resp);
-    
     mysqli_stmt_execute($stmt);
+    
+    $id_encuesta_nueva = mysqli_insert_id($enlace);
+
+    $api_url = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" . urlencode($enlace_form);
+    $qr_image_data = @file_get_contents($api_url);
+
+    if ($qr_image_data !== false) {
+        $directorio_destino = 'uploads/';
+        if (!is_dir($directorio_destino)) {
+            mkdir($directorio_destino, 0777, true);
+        }
+        
+        $nombre_qr = "qr_" . time() . "_encuesta_" . $id_encuesta_nueva . ".png";
+        $ruta_qr = $directorio_destino . $nombre_qr;
+        file_put_contents($ruta_qr, $qr_image_data);
+        
+        $insert_qr = "INSERT INTO qr (codigo_enlace) VALUES (?)";
+        $stmt_qr = mysqli_prepare($enlace, $insert_qr);
+        mysqli_stmt_bind_param($stmt_qr, "s", $ruta_qr);
+        mysqli_stmt_execute($stmt_qr);
+        $id_qr_nuevo = mysqli_insert_id($enlace);
+
+        mysqli_query($enlace, "UPDATE encuesta SET idqr = $id_qr_nuevo WHERE idencuesta = $id_encuesta_nueva");
+    }
+    
     header("Location: encuestas.php");
     exit;
 }
 
+// Eliminar
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'eliminar') {
     $id_eliminar = (int)$_POST['delete_encuesta_id'];
+    
+    $consulta_encuesta = "SELECT idqr FROM encuesta WHERE idencuesta = $id_eliminar";
+    $resultado_encuesta = mysqli_query($enlace, $consulta_encuesta);
+    if ($fila = mysqli_fetch_assoc($resultado_encuesta)) {
+        $id_qr = $fila['idqr'];
+        
+        if ($id_qr) {
+            $consulta_qr = "SELECT codigo_enlace FROM qr WHERE idqr = $id_qr";
+            $resultado_qr = mysqli_query($enlace, $consulta_qr);
+            if ($fila_qr = mysqli_fetch_assoc($resultado_qr)) {
+                if (file_exists($fila_qr['codigo_enlace'])) {
+                    unlink($fila_qr['codigo_enlace']); // Borra imagen del servidor
+                }
+            }
+        }
+    }
+    
     mysqli_query($enlace, "DELETE FROM encuesta WHERE idencuesta = $id_eliminar");
+    if (isset($id_qr) && $id_qr) {
+        mysqli_query($enlace, "DELETE FROM qr WHERE idqr = $id_qr");
+    }
+    
     header("Location: encuestas.php");
     exit;
 }
 
-$consulta_encuestas = "SELECT * FROM encuesta ORDER BY fecha_creacion DESC";
+// Leer
+$consulta_encuestas = "SELECT e.*, q.codigo_enlace 
+                    FROM encuesta e 
+                    LEFT JOIN qr q ON e.idqr = q.idqr 
+                    ORDER BY e.fecha_creacion DESC";
 $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
+
 ?>
 <!DOCTYPE html>
 <html lang="es" data-i18n-file="json/encuestas.json">
@@ -40,7 +93,7 @@ $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title data-i18n="page_title">Hospital de Clínica Montevideo - Encuestas</title>
     
-    <link rel="stylesheet" href="css/style-a.css">
+    <link rel="stylesheet" href="css/style-a.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="css/enc.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -90,18 +143,27 @@ $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
                                 <div class="side-right-hs" style="display: flex; align-items: center; gap: 15px;">
                                     <p class="historial-date"><?php echo date("d/m/Y H:i", strtotime($encuesta['fecha_creacion'])); ?></p>
                                     
-                                    <!-- Botón Eliminar -->
                                     <button class="btn-delete-encuesta" data-id="<?php echo $encuesta['idencuesta']; ?>" data-i18n-title="delete_survey" title="Eliminar encuesta">
                                         <i class="fa-solid fa-trash" style="color: #dc3545; font-size: 1.2rem;"></i>
                                     </button>
                                 </div>
                             </div>
                             
-                            <!-- Botones de Google Forms -->
-                            <div class="links-container">
+                            <!-- Botones de Google Forms y QR -->
+                            <div class="links-container" style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+
+                                <?php if (!empty($encuesta['codigo_enlace'])): ?>
+                                <a href="imprimir_qr.php?qr=<?php echo urlencode($encuesta['codigo_enlace']); ?>&titulo=<?php echo urlencode($encuesta['titulo_encuesta']); ?>" target="_blank" style="color: var(--primary-color); font-size: 2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Abrir e Imprimir QR">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </a>
+                                <?php endif; ?>
+
+                                <!-- Botón para el Paciente -->
                                 <a href="<?php echo htmlspecialchars($encuesta['enlace_formulario']); ?>" target="_blank" class="link-btn btn-responder">
                                     <i class="fa-solid fa-pen-to-square"></i> <span data-i18n="answer_form">Responder Formulario</span>
                                 </a>
+                                
+                                <!-- Botón para el Administrador -->
                                 <?php if (!empty($encuesta['enlace_respuestas'])): ?>
                                 <a href="<?php echo htmlspecialchars($encuesta['enlace_respuestas']); ?>" target="_blank" class="link-btn btn-administrar">
                                     <i class="fa-solid fa-chart-pie"></i> <span data-i18n="manage_responses">Administrar Respuestas</span>
@@ -122,7 +184,7 @@ $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
         <i class="fa-solid fa-plus" style="font-size: 1.8rem; color: white;"></i>
     </button>
 
-    <!-- Modal: Vincular Encuesta -->
+    <!-- Vincular Encuesta -->
     <div class="modal-overlay" id="modalAltaEncuesta">
         <div class="modal-card">
             <h2 class="modal-title" style="margin-bottom: 1rem;" data-i18n="link_survey_title">Vincular Encuesta</h2>
@@ -151,7 +213,7 @@ $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
         </div>
     </div>
 
-    <!-- Modal: Confirmar Eliminación -->
+    <!-- Confirmar Eliminación -->
     <div class="modal-overlay" id="deleteEncuestaModal">
         <div class="modal-card" style="height: auto; min-height: 200px; padding: 2.5rem;">
             <h2 class="modal-title" style="margin-bottom: 1rem; color: #dc3545;" data-i18n="confirm_deletion">Confirmar Eliminación</h2>

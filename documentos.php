@@ -8,7 +8,7 @@ if (!isset($_SESSION['id'])) {
     exit;
 }
 
-// LÓGICA DE SUBIDA DE ARCHIVOS
+// Subida
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['studyFile'])) {
     $titulo = $_POST['studyName'];
     $descripcion = $_POST['studyDesc'];
@@ -23,44 +23,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_FILES['studyFile'])) {
     $ruta_final_archivo = $directorio_destino . $nombre_archivo_unico;
 
     if (move_uploaded_file($_FILES["studyFile"]["tmp_name"], $ruta_final_archivo)) {
+        
         $insertar = "INSERT INTO documentacion (titulo, descripcion, archivo) VALUES (?, ?, ?)";
         $stmt = mysqli_prepare($enlace, $insertar);
         mysqli_stmt_bind_param($stmt, "sss", $titulo, $descripcion, $ruta_final_archivo);
         mysqli_stmt_execute($stmt);
+        
+        $id_doc_nuevo = mysqli_insert_id($enlace);
+
+        $host = ($_SERVER['HTTP_HOST'] === 'localhost') ? gethostbyname(gethostname()) : $_SERVER['HTTP_HOST'];
+        $protocolo = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http";
+        
+        $directorio_base = str_replace('\\', '/', dirname($_SERVER['PHP_SELF']));
+        $url_descarga = sprintf("%s://%s%s/%s", $protocolo, $host, $directorio_base, $ruta_final_archivo);
+        
+        $api_url = "https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=" . urlencode($url_descarga);
+        $qr_image_data = @file_get_contents($api_url);
+        
+        if ($qr_image_data !== false) {
+            $nombre_qr = "qr_" . time() . "_doc" . $id_doc_nuevo . ".png";
+            $ruta_qr = $directorio_destino . $nombre_qr;
+
+            file_put_contents($ruta_qr, $qr_image_data);
+            
+            $insert_qr = "INSERT INTO qr (iddocumento, codigo_enlace) VALUES (?, ?)";
+            $stmt_qr = mysqli_prepare($enlace, $insert_qr);
+            mysqli_stmt_bind_param($stmt_qr, "is", $id_doc_nuevo, $ruta_qr);
+            mysqli_stmt_execute($stmt_qr);
+        }
+
         header("Location: documentos.php");
         exit;
     } else {
-        // En lugar de texto fijo, guardamos una clave de error si quieres manejarlo, 
-        // o simplemente dejamos un flag para que JS o HTML muestre el error.
-        $error_upload = true; 
+        $error_upload = true;
     }
 }
 
 // LECTURA DE ARCHIVOS
-$consulta_docs = "SELECT * FROM documentacion ORDER BY fecha_carga DESC";
+$consulta_docs = "SELECT d.*, q.codigo_enlace 
+                FROM documentacion d 
+                LEFT JOIN qr q ON d.iddocumento = q.iddocumento 
+                ORDER BY d.fecha_carga DESC";
 $resultado_docs = mysqli_query($enlace, $consulta_docs);
 
 // ELIMINACIÓN DE ARCHIVOS
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
     $id_eliminar = (int)$_POST['delete_doc_id'];
+    
     $consulta_archivo = "SELECT archivo FROM documentacion WHERE iddocumento = $id_eliminar";
     $resultado_archivo = mysqli_query($enlace, $consulta_archivo);
-    
     if ($fila = mysqli_fetch_assoc($resultado_archivo)) {
-        $ruta_archivo = $fila['archivo'];
-        if (file_exists($ruta_archivo)) {
-            unlink($ruta_archivo); 
-        }
+        if (file_exists($fila['archivo'])) unlink($fila['archivo']); 
+    }
+
+    $consulta_qr = "SELECT codigo_enlace FROM qr WHERE iddocumento = $id_eliminar";
+    $resultado_qr = mysqli_query($enlace, $consulta_qr);
+    if ($fila_qr = mysqli_fetch_assoc($resultado_qr)) {
+        if (file_exists($fila_qr['codigo_enlace'])) unlink($fila_qr['codigo_enlace']);
     }
     
-    $delete_sql = "DELETE FROM documentacion WHERE iddocumento = $id_eliminar";
-    mysqli_query($enlace, $delete_sql);
+    mysqli_query($enlace, "DELETE FROM qr WHERE iddocumento = $id_eliminar");
+    mysqli_query($enlace, "DELETE FROM documentacion WHERE iddocumento = $id_eliminar");
+    
     header("Location: documentos.php");
     exit;
 }
 ?>
 <!DOCTYPE html>
-<!-- CLAVE: Aquí le decimos a JS dónde buscar las traducciones -->
+
 <html lang="es" data-i18n-file="json/documentos.json">
 <head>
     <meta charset="UTF-8">
@@ -115,6 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
                                 <div class="side-left-hs">
                                     <h2 class="historial-title"><?php echo htmlspecialchars($doc['titulo']); ?></h2>
                                 </div>
+                                
                                 <div class="side-right-hs" style="display: flex; align-items: center; gap: 15px;">
                                     <p class="historial-date"><?php echo date("d/m/Y H:i", strtotime($doc['fecha_carga'])); ?></p>
                                     
@@ -126,9 +157,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
                             <p class="historial-description" style="margin-bottom: 15px; color: #555;">
                                 <?php echo htmlspecialchars($doc['descripcion']); ?>
                             </p>
-                            <a href="<?php echo htmlspecialchars($doc['archivo']); ?>" target="_blank" class="qr-link">
-                                <span data-i18n="view_file">Ver archivo</span> <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem; margin-left: 5px;"></i>
-                            </a>
+                                                
+                            <div style="display: flex; justify-content: space-between; align-items: center;">
+
+                                <a href="<?php echo htmlspecialchars($doc['archivo']); ?>" target="_blank" class="qr-link" style="text-decoration:none; padding:8px 15px; background-color:var(--secondary-color); color:white; border-radius:6px; font-weight:bold;">
+                                    <span data-i18n="view_file">Ver archivo</span> <i class="fa-solid fa-arrow-up-right-from-square" style="font-size: 0.8rem; margin-left: 5px;"></i>
+                                </a>
+
+                                <?php if (!empty($doc['codigo_enlace'])): ?>
+                                <a href="imprimir_qr.php?qr=<?php echo urlencode($doc['codigo_enlace']); ?>&titulo=<?php echo urlencode($doc['titulo']); ?>" target="_blank" style="color: var(--primary-color); font-size: 2rem; transition: transform 0.2s;" onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'" title="Abrir e Imprimir QR">
+                                    <i class="fa-solid fa-qrcode"></i>
+                                </a>
+                                <?php endif; ?>
+                            </div>
+                            
                         </div>
                     <?php endwhile; ?>
                 <?php else: ?>
@@ -161,7 +203,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         </div>
     </div>
 
-    <!-- Menú lateral modificado -->
+    <!-- Menú lateral -->
     <div class="floating-menu-container">
         <div class="side-popup" id="sidePopup">
             <ul>
@@ -176,7 +218,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
         </button>
     </div>
 
-    <!-- Modal de Preferencias unificado -->
+    <!-- Modal de Preferencias -->
     <div class="modal-overlay" id="preferencesModal">
         <div class="modal-card">
             <h2 class="modal-title" data-i18n="preferences">Preferencias</h2>
@@ -189,7 +231,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete_doc_id'])) {
                 </label>
             </div>
 
-            <!-- Menú de idiomas corregido con "es" y "en" -->
             <div class="pref-row">
                 <span class="pref-label" data-i18n="language">Idioma</span>
                 <div class="custom-dropdown" id="dropdownLanguage">
