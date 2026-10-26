@@ -98,8 +98,8 @@
             <!-- Session -->
             <?php if (isset($_SESSION['id'])): ?>
                 <ul>
-                    <li class="MiniBtn"><a href="#" data-i18n="edit_profile">Editar Perfil</a></li>
-                    <li class="MiniBtn"><a href="#configuracion.html" data-i18n="settings">Configuracion</a></li>
+                    
+                    
                     <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
                     <li class="MiniBtn"><a href="php/logout.php" data-i18n="sign_out">Cerrar sesion</a></li>
                 </ul>

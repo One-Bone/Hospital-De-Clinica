@@ -233,8 +233,8 @@ $resultado_encuestas = mysqli_query($enlace, $consulta_encuestas);
     <div class="floating-menu-container">
         <div class="side-popup" id="sidePopup">
             <ul>
-                <li class="MiniBtn"><a href="#" data-i18n="edit_profile">Editar Perfil</a></li>
-                <li class="MiniBtn"><a href="#" data-i18n="settings">Configuración</a></li>
+                
+                
                 <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
                 <li class="MiniBtn"><a href="php/logout.php" data-i18n="sign_out">Cerrar sesión</a></li>
             </ul>

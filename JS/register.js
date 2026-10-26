@@ -39,11 +39,17 @@ document.addEventListener('DOMContentLoaded', () => {
                 body: formData
             });
 
-            if (respuesta.ok) {
+            
+            const textoBackend = await respuesta.text();
+
+            
+            if (respuesta.ok && textoBackend.trim() === "Exito") {
                 alert(window.getSiteTranslation?.('registration_success') || '¡Registro exitoso!');
                 window.location.href = 'php/login.php';
             } else {
-                alert(window.getSiteTranslation?.('registration_error') || 'Error al registrar. Por favor, intenta de nuevo.');
+            
+                console.error("Error del servidor:", textoBackend);
+                alert(textoBackend || 'Error al registrar. Verifica los datos.');
             }
         } catch (error) {
             console.error('Error de conexión:', error);
