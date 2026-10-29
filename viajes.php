@@ -1,13 +1,25 @@
 <?php
 session_start();
 
-require_once 'php/config.php';
+require_once 'php/conexion.php';
 
-if(!isset($_SESSION['id'])){
+if (!isset($_SESSION['id'])) {
     header("Location: php/login.php");
     exit;
 }
 
+// Ambulancias para el selector
+$listaAmbulancias = $enlace->query(
+    "SELECT idambulancia, matricula, marca, modelo FROM ambulancia ORDER BY matricula"
+)->fetch_all(MYSQLI_ASSOC);
+
+// Nombre del usuario logueado (conductor por defecto)
+$stUser = $enlace->prepare("SELECT CONCAT(nombre, ' ', apellido) AS nombre FROM usuario WHERE id_usuario = ?");
+$uid = (int)$_SESSION['id'];
+$stUser->bind_param('i', $uid);
+$stUser->execute();
+$fila = $stUser->get_result()->fetch_assoc();
+$conductorNombre = $fila['nombre'] ?? '';
 ?>
 <!DOCTYPE html>
 <html lang="es" data-i18n-file="json/viajes.json">
@@ -19,6 +31,7 @@ if(!isset($_SESSION['id'])){
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/viajes.css" as="style">
     <link rel="stylesheet" href="css/viajes.css" as="style">
+    <link rel="stylesheet" href="css/traslados.css">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
@@ -66,71 +79,102 @@ if(!isset($_SESSION['id'])){
         <span data-i18n="request_transport">Solicitar traslado</span>
     </div>
 
-    <!-- Ambulance Modal -->
+    <!-- Modal Solicitar Traslado -->
     <div class="modal-overlay" id="trasladoModal">
-            <div class="modal-card modal-traslado">
-                <h2 class="modal-title-traslado" data-i18n="request_transport_title">Solicitar Traslado</h2>
-                
-                <form id="formSolicitarTraslado" class="traslado-form-scroll">
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="transport_type">Tipo de traslado</label>
-                        <select class="form-input custom-select" id="tipoTraslado">
-                            <option value="Paciente" data-i18n="patient">Paciente</option>
-                            <option value="Insumos" data-i18n="supplies">Insumos</option>
-                            <option value="Ambos" data-i18n="both">Ambos</option>
-                        </select>
+        <div class="modal-card modal-traslado">
+            <h2 class="modal-title-traslado" data-i18n="request_transport_title">Solicitar Traslado</h2>
+
+            <form id="formSolicitarTraslado" class="traslado-form-scroll">
+                <div class="form-row">
+                    <label class="form-label" for="tipoTraslado" data-i18n="transport_type">Tipo de traslado</label>
+                    <select class="form-input custom-select" id="tipoTraslado">
+                        <option value="Paciente" data-i18n="patient">Paciente</option>
+                        <option value="Insumos" data-i18n="supplies">Insumos</option>
+                        <option value="Ambos" data-i18n="both">Ambos</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="direccionSalida" data-i18n="departure">Salida</label>
+                    <div class="input-con-mapa">
+                        <input type="text" class="form-input" id="direccionSalida" list="sugSalida"
+                               autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
+                        <button type="button" class="btn-mapa" data-campo="origen" title="Elegir en el mapa">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </button>
                     </div>
-                    
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="departure">Salida</label>
-                        <input type="text" class="form-input" id="direccionSalida" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
+                    <datalist id="sugSalida"></datalist>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="direccionLlegada" data-i18n="arrival">Llegada</label>
+                    <div class="input-con-mapa">
+                        <input type="text" class="form-input" id="direccionLlegada" list="sugLlegada"
+                               autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
+                        <button type="button" class="btn-mapa" data-campo="destino" title="Elegir en el mapa">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </button>
                     </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="arrival">Llegada</label>
-                        <input type="text" class="form-input" id="direccionLlegada" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
-                    </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="arrival_time">Hora de llegada</label>
-                        <input type="time" class="form-input btn-blue-input" id="horaLlegada">
-                    </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="urgency">Nivel de necesidad</label>
-                        <select class="form-input custom-select select-red" id="nivelNecesidad">
-                            <option value="Alta" data-i18n="high">Alta</option>
-                            <option value="Media" data-i18n="medium">Media</option>
-                            <option value="Baja" data-i18n="low">Baja</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="supplies">Insumos</label>
-                        <input type="text" class="form-input" id="listaInsumos" placeholder="Lista de Insumos" data-i18n-placeholder="supplies_list">
-                    </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="for">Para</label>
-                        <input type="text" class="form-input" id="asignacionPara" value="Ambulancia más Cercana" data-i18n-value="nearest_ambulance">
-                    </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="patient">Paciente</label>
-                        <input type="text" class="form-input" id="datosPaciente" placeholder="Registrar más tarde" data-i18n-placeholder="register_later">
-                    </div>
-                
-                    <div class="form-row">
-                        <label class="form-label" data-i18n="driver">Conductor</label>
-                        <input type="text" class="form-input" id="datosConductor" value="Automático" data-i18n-value="automatic">
-                    </div>
-                
-                    <div class="form-submit-container">
-                        <button type="submit" class="btn-submit-traslado" data-i18n="send">Enviar</button>
-                    </div>
-                </form>
-            </div>
+                    <datalist id="sugLlegada"></datalist>
+                </div>
+
+                <p class="resumen-ruta" id="resumenRuta" aria-live="polite"></p>
+
+                <div class="form-row">
+                    <label class="form-label" for="horaLlegada" data-i18n="arrival_time">Hora de llegada</label>
+                    <input type="time" class="form-input btn-blue-input" id="horaLlegada">
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="nivelNecesidad" data-i18n="urgency">Nivel de necesidad</label>
+                    <select class="form-input custom-select select-red" id="nivelNecesidad">
+                        <option value="Alta" data-i18n="high">Alta</option>
+                        <option value="Media" data-i18n="medium">Media</option>
+                        <option value="Baja" data-i18n="low">Baja</option>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="listaInsumos" data-i18n="supplies">Insumos</label>
+                    <input type="text" class="form-input" id="listaInsumos" placeholder="Lista de Insumos" data-i18n-placeholder="supplies_list">
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="selAmbulanciaTraslado">Ambulancia</label>
+                    <select class="form-input custom-select" id="selAmbulanciaTraslado">
+                        <option value="auto">Más cercana (automática)</option>
+                        <?php foreach ($listaAmbulancias as $a): ?>
+                            <option value="<?= (int)$a['idambulancia'] ?>">
+                                <?= htmlspecialchars($a['matricula'] . ' - ' . $a['marca'] . ' ' . $a['modelo']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="datosPaciente" data-i18n="patient">Paciente</label>
+                    <input type="text" class="form-input" id="datosPaciente" placeholder="Registrar más tarde" data-i18n-placeholder="register_later">
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="datosConductor" data-i18n="driver">Conductor</label>
+                    <input type="text" class="form-input" id="datosConductor"
+                           value="<?= htmlspecialchars($conductorNombre) ?>">
+                </div>
+
+                <div class="form-submit-container">
+                    <button type="submit" class="btn-submit-traslado" data-i18n="send">Enviar</button>
+                </div>
+            </form>
+        </div>
     </div>
+
+    <!-- Banner para elegir un punto en el mapa -->
+    <div class="banner-mapa" id="bannerMapa" hidden>
+        <span id="textoBannerMapa"></span>
+        <button type="button" id="btnCancelarMapa">Cancelar</button>
+    </div>
+
     <!-- Seccion Mini Menu -->
     <!-- Button FLoat -->
     <div class="floating-menu-container">
@@ -139,8 +183,6 @@ if(!isset($_SESSION['id'])){
         <div class="side-popup" id="sidePopup">
             <?php if (isset($_SESSION['id'])): ?>
                 <ul>
-                    
-                    
                     <li id="preferencesItem" class="MiniBtn"><a href="#" id="btnOpenPreferences" data-i18n="preferences">Preferencias</a></li>
                     <li class="MiniBtn"><a href="php/logout.php" data-i18n="sign_out">Cerrar sesion</a></li>
                 </ul>
@@ -185,10 +227,12 @@ if(!isset($_SESSION['id'])){
             </div>
         </div>
     </div>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.js"></script>
     <script src="js/menu.js?v=<?php echo time(); ?>"></script>
     <script src="js/idioma.js?v=<?php echo time(); ?>"></script>
     <script src="js/viajes.js?v=<?php echo time(); ?>"></script>
+    <script src="js/traslados.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

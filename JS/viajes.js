@@ -110,14 +110,16 @@ const SENIAL_PERDIDA_SEG = 30;        // si el último punto es más viejo que e
 
 const liveAmbulances = {}; // id -> { marker, polyline }
 
-const liveRouteStyle = { color: '#3a4dbf', weight: 4, opacity: 0.8 };
+// Rastro GPS en naranja punteado, para distinguirlo de las rutas azules de los traslados
+const liveRouteStyle = { color: '#ff8c00', weight: 4, opacity: 0.9, dashArray: '6 6' };
 
-function liveAmbulancePopup(a) {
-    const velocidad = a.velocidad !== null ? `<br>${Math.round(a.velocidad * 3.6)} km/h` : '';
-    return `<b>${a.matricula}</b>`
-        + `<br>${popupText('last_signal', 'Última señal')}: ${a.segundos} s`
-        + velocidad;
-}
+// Ícono de la ambulancia en vivo: círculo blanco con borde rojo y pulso (tamaño igual al CSS)
+const ambulanceLiveIcon = L.divIcon({
+    html: '<div class="amb-live"><i class="fa-solid fa-truck-medical"></i></div>',
+    className: 'amb-live-wrap',
+    iconSize: [24, 24],
+    iconAnchor: [12, 12]
+});
 
 async function actualizarAmbulanciasEnVivo() {
     try {
@@ -134,14 +136,23 @@ async function actualizarAmbulanciasEnVivo() {
             const sinSenial = a.segundos > SENIAL_PERDIDA_SEG;
 
             if (!liveAmbulances[a.id]) {
-                liveAmbulances[a.id] = {
-                    marker: L.marker(pos, { icon: ambulanceIcon }).addTo(map),
+                const id = a.id;
+                const marcador = L.marker(pos, { icon: ambulanceLiveIcon, zIndexOffset: 1000 })
+                    .bindTooltip(() => window.tooltipAmbulancia?.(id) ?? '', {
+                        direction: 'top',
+                        sticky: true,
+                        className: 'tooltip-ambulancia',
+                        offset: [0, -14]
+                    })
+                    .addTo(map);
+                marcador.on('click', () => marcador.openTooltip()); // para celulares (tocar)
+
+                liveAmbulances[id] = {
+                    marker: marcador,
                     polyline: L.polyline(a.ruta, liveRouteStyle).addTo(map)
                 };
-                liveAmbulances[a.id].marker.bindPopup(liveAmbulancePopup(a));
             } else {
                 liveAmbulances[a.id].marker.setLatLng(pos);
-                liveAmbulances[a.id].marker.setPopupContent(liveAmbulancePopup(a));
                 liveAmbulances[a.id].polyline.setLatLngs(a.ruta);
             }
 
@@ -156,6 +167,9 @@ async function actualizarAmbulanciasEnVivo() {
                 delete liveAmbulances[id];
             }
         });
+
+        // Avisa a traslados.js con las posiciones nuevas
+        window.onUbicacionesActualizadas?.(data.ambulancias);
     } catch (e) {
         console.error('No se pudo actualizar el seguimiento:', e);
     }
