@@ -57,3 +57,47 @@
     100%{box-shadow:0 0 0 10px rgba(214,48,48,0)}
 }
 @media (prefers-reduced-motion:reduce){.amb-live{animation:none}}
+
+/* ===== Botones flotantes apilados (abajo a la izquierda) =====
+   Arriba: solicitar traslado. Abajo: menú. Mismo tamaño y misma columna. */
+.floating-menu-container{
+    bottom:30px;
+    left:30px;
+}
+.floating-ambulance{
+    position:fixed;
+    left:30px;
+    bottom:97px;              /* 30 (base) + 55 (botón de menú) + 12 (espacio) */
+    z-index:100;
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+.ambulance-btn{
+    width:55px;
+    height:55px;
+    padding:0;
+    border-radius:50%;
+    font-size:1.5rem;
+    box-shadow:0 4px 12px rgba(0,0,0,.25);
+}
+.floating-ambulance > span{
+    background:var(--main-color);
+    color:var(--primary-color);
+    font-weight:bold;
+    font-size:.9rem;
+    padding:.4rem .8rem;
+    border-radius:12px;
+    box-shadow:0 2px 8px rgba(0,0,0,.2);
+    white-space:nowrap;
+}
+@media (max-width:480px){
+    .floating-menu-container{
+        bottom:15px;
+        left:15px;
+    }
+    .floating-ambulance{
+        left:15px;
+        bottom:82px;         /* 15 (base) + 55 + 12 */
+    }
+}

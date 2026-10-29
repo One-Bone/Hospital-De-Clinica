@@ -31,7 +31,7 @@ $conductorNombre = $fila['nombre'] ?? '';
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/viajes.css" as="style">
     <link rel="stylesheet" href="css/viajes.css" as="style">
-    <link rel="stylesheet" href="css/traslados.css">
+    <link rel="stylesheet" href="css/traslados.css?v=<?php echo time(); ?>">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
@@ -104,6 +104,13 @@ $conductorNombre = $fila['nombre'] ?? '';
                         </button>
                     </div>
                     <datalist id="sugSalida"></datalist>
+                </div>
+
+                <div class="form-row">
+                    <label class="form-label" for="selHospital">Hospital</label>
+                    <select class="form-input custom-select" id="selHospital">
+                        <option value="">Elegir hospital...</option>
+                    </select>
                 </div>
 
                 <div class="form-row">

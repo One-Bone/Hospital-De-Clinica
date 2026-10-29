@@ -26,6 +26,7 @@ $ambulancias = $enlace->query("SELECT idambulancia, matricula, modelo, marca FRO
             --grey-color:#747272;
         }
         *{margin:0;padding:0;box-sizing:border-box}
+        [hidden]{display:none !important}
         body{
             font-family:Arial,sans-serif;
             background:var(--background-color);
@@ -108,6 +109,36 @@ $ambulancias = $enlace->query("SELECT idambulancia, matricula, modelo, marca FRO
         #btnToggle:focus-visible,select:focus-visible{outline:3px solid var(--primary-color);outline-offset:3px}
         .aviso{font-size:.85rem;color:var(--grey-color);line-height:1.5}
         .volver{color:var(--secondary-color);font-weight:bold;text-decoration:none;text-align:center}
+
+        /* Gestión de ambulancias */
+        .gestion{
+            background:var(--main-color);
+            border-radius:18px;
+            padding:1rem 1.25rem;
+            box-shadow:0 4px 14px rgba(0,0,0,.1);
+            display:flex;
+            flex-direction:column;
+            gap:.75rem;
+        }
+        .gestion-titulo{font-weight:bold;font-size:1rem}
+        .acciones-amb{display:flex;gap:.5rem;flex-wrap:wrap}
+        .btn-chico{
+            flex:1;min-width:140px;height:44px;border:none;border-radius:12px;
+            background:var(--secondary-color);color:var(--main-color);
+            font-weight:bold;font-size:.95rem;cursor:pointer;
+        }
+        .btn-chico:active{background:#303061}
+        .btn-chico.peligro{background:var(--error)}
+        .btn-chico.peligro:active{background:#a82424}
+        .btn-chico.gris{background:var(--grey-color)}
+        .btn-chico:disabled{opacity:.5;cursor:default}
+        .form-amb{display:flex;flex-direction:column;gap:.5rem}
+        .form-amb input{
+            height:44px;border-radius:12px;border:2px solid var(--primary-color);
+            padding:0 .8rem;font-size:1rem;background:var(--main-color);
+        }
+        .form-amb .acciones-amb{margin-top:.25rem}
+        .mensaje-gestion{font-size:.9rem;color:var(--grey-color);min-height:1.2em}
     </style>
 </head>
 <body>
@@ -140,6 +171,33 @@ $ambulancias = $enlace->query("SELECT idambulancia, matricula, modelo, marca FRO
 
         <button id="btnToggle" type="button">Iniciar seguimiento</button>
 
+        <section class="gestion">
+            <span class="gestion-titulo">Gestionar ambulancias</span>
+
+            <div class="acciones-amb">
+                <button type="button" id="btnNueva" class="btn-chico">+ Nueva ambulancia</button>
+                <button type="button" id="btnEliminar" class="btn-chico peligro">Eliminar seleccionada</button>
+            </div>
+
+            <form id="formNueva" class="form-amb" hidden>
+                <label for="nMatricula">Matrícula</label>
+                <input id="nMatricula" maxlength="50" required placeholder="Ej: 11 - 33 22">
+
+                <label for="nMarca">Marca</label>
+                <input id="nMarca" maxlength="50" placeholder="Ej: Mercedes">
+
+                <label for="nModelo">Modelo</label>
+                <input id="nModelo" maxlength="50" placeholder="Ej: Sprinter">
+
+                <div class="acciones-amb">
+                    <button type="submit" class="btn-chico">Guardar ambulancia</button>
+                    <button type="button" id="btnCancelarNueva" class="btn-chico gris">Cancelar</button>
+                </div>
+            </form>
+
+            <p class="mensaje-gestion" id="mensajeGestion" aria-live="polite"></p>
+        </section>
+
         <p class="aviso">
             Mantené esta pantalla abierta y encendida mientras conducís. Si cambiás de app o se
             bloquea el teléfono, el navegador puede dejar de enviar la ubicación.
@@ -158,12 +216,19 @@ $ambulancias = $enlace->query("SELECT idambulancia, matricula, modelo, marca FRO
         const detalle = document.getElementById('detalle');
         const errorEl = document.getElementById('error');
 
+        const btnNueva = document.getElementById('btnNueva');
+        const btnEliminar = document.getElementById('btnEliminar');
+        const formNueva = document.getElementById('formNueva');
+        const btnCancelarNueva = document.getElementById('btnCancelarNueva');
+        const mensajeGestion = document.getElementById('mensajeGestion');
+
         let timer = null;
         let ocupado = false;
         let enviados = 0;
         let wakeLock = null;
 
         if (!sel.value) btn.disabled = true;
+        if (!sel.value) btnEliminar.disabled = true;
 
         function mostrarError(msg) {
             errorEl.textContent = msg || '';
@@ -266,6 +331,71 @@ $ambulancias = $enlace->query("SELECT idambulancia, matricula, modelo, marca FRO
         }
 
         btn.addEventListener('click', () => timer ? detener() : iniciar());
+
+        // ---------- Alta y baja de ambulancias ----------
+        async function llamarAmbulancias(datos) {
+            const r = await fetch('php/ambulancias.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(datos)
+            });
+            if (r.status === 401) throw new Error('Tu sesión expiró. Volvé a iniciar sesión.');
+            const data = await r.json().catch(() => ({ ok: false, error: 'Respuesta inválida del servidor' }));
+            if (!data.ok) throw new Error(data.error || 'No se pudo completar la acción');
+            return data;
+        }
+
+        btnNueva.addEventListener('click', () => {
+            formNueva.hidden = !formNueva.hidden;
+            mensajeGestion.textContent = '';
+        });
+
+        btnCancelarNueva.addEventListener('click', () => {
+            formNueva.reset();
+            formNueva.hidden = true;
+        });
+
+        formNueva.addEventListener('submit', async e => {
+            e.preventDefault();
+            const boton = formNueva.querySelector('button[type="submit"]');
+            boton.disabled = true;
+            try {
+                await llamarAmbulancias({
+                    accion: 'crear',
+                    matricula: document.getElementById('nMatricula').value,
+                    marca: document.getElementById('nMarca').value,
+                    modelo: document.getElementById('nModelo').value
+                });
+                location.reload(); // la lista se vuelve a cargar desde el servidor
+            } catch (err) {
+                mensajeGestion.textContent = err.message;
+                boton.disabled = false;
+            }
+        });
+
+        btnEliminar.addEventListener('click', async () => {
+            const id = parseInt(sel.value, 10);
+            if (!id) return;
+
+            if (timer) {
+                mensajeGestion.textContent = 'Detené el seguimiento antes de eliminar una ambulancia.';
+                return;
+            }
+
+            const nombre = sel.options[sel.selectedIndex].text.trim();
+            const ok = confirm(
+                `¿Eliminar la ambulancia ${nombre}?\n\n` +
+                `Se borra también su historial de ubicaciones. Esta acción no se puede deshacer.`
+            );
+            if (!ok) return;
+
+            try {
+                await llamarAmbulancias({ accion: 'eliminar', idambulancia: id });
+                location.reload();
+            } catch (err) {
+                mensajeGestion.textContent = err.message;
+            }
+        });
     })();
     </script>
 </body>

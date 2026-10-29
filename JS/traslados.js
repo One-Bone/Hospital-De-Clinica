@@ -1,19 +1,36 @@
 // ===================================================================
 // Trazabilidad de traslados
-// - Formulario con autocompletado y selección tocando el mapa (Geoapify)
-// - Rutas dibujadas en el mapa, con opción de eliminarlas
+// - Formulario con autocompletado, selector de hospital y selección tocando el mapa (Geoapify)
+// - Rutas dibujadas en el mapa, con etiqueta encima (insumos, paciente, conductor, llegada)
 // - Al pasar el mouse sobre una ambulancia: conductor, paciente, insumos y ETA
-// Requiere viajes.js cargado antes (usa `map` y `liveAmbulances`).
+// Requiere viajes.js cargado antes (usa `map`, `liveAmbulances` y `hospitalClinicasCoords`).
 // ===================================================================
 (function () {
     const ACTUALIZAR_TRASLADOS_MS = 15000;
     const ACTUALIZAR_ETA_MS = 60000;
+
+    // Hospitales de Montevideo para el selector de Salida.
+    // Clínicas usa coordenadas exactas; los demás se buscan por nombre en Geoapify.
+    // Si algún nombre no encuentra el lugar correcto, editá el texto de búsqueda acá.
+    const HOSPITALES_MVD = [
+        { nombre: 'Hospital de Clínicas', coords: hospitalClinicasCoords },
+        { nombre: 'Hospital Militar Central' },
+        { nombre: 'Hospital Pereira Rossell' },
+        { nombre: 'Hospital Maciel' },
+        { nombre: 'Hospital Británico' },
+        { nombre: 'Hospital Español' },
+        { nombre: 'Hospital Pasteur' },
+        { nombre: 'Hospital Filtro' },
+        { nombre: 'Hospital Evangélico' },
+        { nombre: 'Hospital Vilardebó' }
+    ];
 
     const modal = document.getElementById('trasladoModal');
     const form = document.getElementById('formSolicitarTraslado');
     const banner = document.getElementById('bannerMapa');
     const textoBanner = document.getElementById('textoBannerMapa');
     const selAmbulancia = document.getElementById('selAmbulanciaTraslado');
+    const selHospital = document.getElementById('selHospital');
     const resumenRuta = document.getElementById('resumenRuta');
 
     const campos = {
@@ -114,6 +131,36 @@
         }
     }
 
+    // ---------- selector de hospital (debajo de Salida) ----------
+    if (selHospital) {
+        HOSPITALES_MVD.forEach(h => selHospital.appendChild(new Option(h.nombre, h.nombre)));
+
+        selHospital.addEventListener('change', async () => {
+            const h = HOSPITALES_MVD.find(x => x.nombre === selHospital.value);
+            if (!h) return;
+            const c = campos.origen;
+            c.input.value = 'Buscando ' + h.nombre + '...';
+            try {
+                if (h.coords) {
+                    c.input.value = h.nombre + ', Montevideo';
+                    fijar('origen', h.coords[0], h.coords[1]);
+                } else {
+                    const { resultados } = await geo({ accion: 'autocomplete', text: h.nombre + ' Montevideo' });
+                    if (!resultados.length) throw new Error('No se encontró "' + h.nombre + '" en el mapa.');
+                    const r = resultados[0];
+                    c.input.value = r.texto;
+                    fijar('origen', Number(r.lat), Number(r.lon));
+                }
+            } catch (e) {
+                c.input.value = '';
+                fijar('origen', null, null);
+                alerta(e.message);
+            } finally {
+                selHospital.value = ''; // vuelve a "Elegir hospital..."
+            }
+        });
+    }
+
     // ---------- selección tocando el mapa ----------
     document.querySelectorAll('.btn-mapa').forEach(b => b.addEventListener('click', () => {
         modoMapa = b.dataset.campo;
@@ -203,7 +250,7 @@
         });
         sugerencias.origen.clear();
         sugerencias.destino.clear();
-        form.reset(); // restaura conductor y ambulancia por defecto
+        form.reset(); // restaura conductor, ambulancia y hospital por defecto
         quitarPreview();
         ultimaRuta = null;
         resumenRuta.textContent = '';
@@ -214,7 +261,7 @@
         const o = campos.origen, d = campos.destino;
 
         if (o.lat == null || d.lat == null) {
-            return alerta('Elegí la salida y la llegada desde la lista o tocando el mapa.');
+            return alerta('Elegí la salida y la llegada desde la lista, el hospital o tocando el mapa.');
         }
 
         // Si la ruta todavía se está calculando, esperamos a que termine
@@ -275,15 +322,47 @@
         iconAnchor: [14, 28]
     });
 
+    // Etiqueta que se muestra encima de la ruta azul
+    function etiquetaTraslado(t) {
+        const seg = eta[t.idtraslado];
+        let llegada;
+        if (seg != null) {
+            llegada = `${fmtDuracion(seg)} (≈ ${fmtHora(new Date(Date.now() + seg * 1000))})`;
+        } else if (ubicaciones[t.idambulancia]) {
+            llegada = 'calculando…';
+        } else {
+            llegada = 'sin señal de la ambulancia';
+        }
+
+        return `<b>${esc(t.matricula)}</b> · ${esc(t.tipo_traslado || 'Traslado')}<br>
+            <b>Insumos:</b> ${t.insumos ? esc(t.insumos) : 'ninguno'}<br>
+            <b>Paciente:</b> ${esc(t.paciente || '—')}<br>
+            <b>Conductor:</b> ${esc(t.conductor || '—')}<br>
+            <b>Llega en:</b> ${llegada}`;
+    }
+
     function dibujarTraslado(t) {
         const ruta = L.polyline(t.geometria, { color: '#3a4dbf', weight: 5, opacity: 0.85 }).addTo(map);
         ruta.bindPopup(() => contenidoRuta(t.idtraslado), { maxWidth: 260 });
+        ruta.bindTooltip(etiquetaTraslado(t), {
+            permanent: true,
+            direction: 'top',
+            className: 'tooltip-ambulancia',
+            offset: [0, -6]
+        });
 
         const destino = L.marker([t.destino_lat, t.destino_lng], { icon: iconoDestino })
             .bindTooltip(`Destino: ${esc(t.destino)}`)
             .addTo(map);
 
         traslados.set(t.idtraslado, { ...t, capas: [ruta, destino] });
+    }
+
+    // Actualiza la etiqueta de todas las rutas (cuando cambia el ETA o la posición)
+    function refrescarEtiquetas() {
+        traslados.forEach(t => {
+            if (t.capas && t.capas[0]) t.capas[0].setTooltipContent(etiquetaTraslado(t));
+        });
     }
 
     function contenidoRuta(id) {
@@ -337,6 +416,7 @@
                 if (previo) Object.assign(previo, t);
                 else dibujarTraslado(t);
             });
+            refrescarEtiquetas();
         } catch (e) {
             console.error('No se pudieron cargar los traslados:', e);
         }
@@ -390,6 +470,7 @@
             };
         });
         refrescarTooltipsAbiertos();
+        refrescarEtiquetas();
     };
 
     // ETA: ruta desde la posición actual de cada ambulancia hasta el destino
@@ -409,6 +490,7 @@
             }
         }));
         refrescarTooltipsAbiertos();
+        refrescarEtiquetas();
     }
 
     // ---------- arranque ----------
