@@ -30,11 +30,12 @@ $conductorNombre = $fila['nombre'] ?? '';
     <link rel="preload" href="css/style-a.css" as="style">
     <link rel="stylesheet" href="css/style-a.css" as="style">
     <link rel="preload" href="css/viajes.css" as="style">
-    <link rel="stylesheet" href="css/viajes.css" as="style">
+    <link rel="stylesheet" href="css/viajes.css?v=<?php echo time(); ?>" as="style">
     <link rel="stylesheet" href="css/traslados.css?v=<?php echo time(); ?>">
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@3.2.12/dist/leaflet-routing-machine.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <!-- Header -->
@@ -64,10 +65,10 @@ $conductorNombre = $fila['nombre'] ?? '';
         <button class="zoom-btn" id="zoomOutBtn">-</button>
     </div>
 
-    <!-- Botón simulación ambulancia -->
-    <div class="map-ambulance">
-        <button class="ambulance-map" id="ambulanceMap" title="Simular movimiento de ambulancia" data-i18n-title="simulate_ambulance">
-            <i class="fa-solid fa-truck-medical"></i>
+    <!-- Button conductor -->
+    <div class="floating-conductor">
+        <button class="conductor-btn" id="conductorBtn" onclick="window.location.href='conductor.php'">
+            <i class="fa-solid fa-user"></i>
         </button>
     </div>
 
@@ -98,7 +99,7 @@ $conductorNombre = $fila['nombre'] ?? '';
                     <label class="form-label" for="direccionSalida" data-i18n="departure">Salida</label>
                     <div class="input-con-mapa">
                         <input type="text" class="form-input" id="direccionSalida" list="sugSalida"
-                               autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
+                            autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
                         <button type="button" class="btn-mapa" data-campo="origen" title="Elegir en el mapa">
                             <i class="fa-solid fa-location-dot"></i>
                         </button>
@@ -117,7 +118,7 @@ $conductorNombre = $fila['nombre'] ?? '';
                     <label class="form-label" for="direccionLlegada" data-i18n="arrival">Llegada</label>
                     <div class="input-con-mapa">
                         <input type="text" class="form-input" id="direccionLlegada" list="sugLlegada"
-                               autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
+                            autocomplete="off" placeholder="Ingrese Dirección" data-i18n-placeholder="enter_address" required>
                         <button type="button" class="btn-mapa" data-campo="destino" title="Elegir en el mapa">
                             <i class="fa-solid fa-location-dot"></i>
                         </button>
@@ -166,7 +167,7 @@ $conductorNombre = $fila['nombre'] ?? '';
                 <div class="form-row">
                     <label class="form-label" for="datosConductor" data-i18n="driver">Conductor</label>
                     <input type="text" class="form-input" id="datosConductor"
-                           value="<?= htmlspecialchars($conductorNombre) ?>">
+                            value="<?= htmlspecialchars($conductorNombre) ?>">
                 </div>
 
                 <div class="form-submit-container">

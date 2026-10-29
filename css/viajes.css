@@ -62,15 +62,15 @@
     align-items: center;
     transition: transform 0.2s, background-color 0.2s;
 }
+
 .ambulance-btn:active{
     background-color: var(--pressed-secondary-color);
 }
 
-/* Modificación del botón flotante para Solicitar Traslado */
 .floating-ambulance {
     position: fixed;
     bottom: 30px;
-    left: 100px; /* Desplazado para no solaparse con el menú flotante FAB */
+    left: 100px; 
     z-index: 100;
 }
 
@@ -94,6 +94,33 @@
 
 .ambulance-btn:active {
     background-color: var(--pressed-primary-color);
+}
+
+.floating-conductor {
+    position: fixed;
+    top: 60px;
+    left: 30px; 
+    z-index: 100;
+}
+
+.conductor-btn {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: var(--secondary-color);
+    border: none;
+    color: var(--main-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.25);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.conductor-btn:active {
+    background-color: var(--pressed-secondary-color);
 }
 
 /* Estilos del Modal Solicitar Traslado */
